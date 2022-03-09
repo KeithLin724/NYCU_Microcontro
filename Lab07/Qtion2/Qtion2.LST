@@ -1,0 +1,221 @@
+A51 MACRO ASSEMBLER  QTION2                                                               11/10/2021 15:38:12 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Qtion2.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Qtion2.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1         org 0000H
+0000 0150              2         ajmp main 
+0050                   3         org 0050H
+                       4     
+  REG                  5     counter equ r0 
+0050                   6     main:
+0050 7A7F              7         mov r2 , #01111111b  
+0052 7C00              8         mov r4 , #0 
+                       9     
+0054                  10     Read:
+0054 8AB0             11         mov p3 , r2 
+0056 310B             12         acall Delay_keyboard
+0058 E5B0             13         mov a , p3 
+005A C4               14         swap a 
+005B 54F0             15         anl a , #11110000b
+005D FB               16         mov r3 , a  
+                      17     
+005E EB               18         mov a , r3 
+005F 64E0             19         xrl a , #0E0H
+0061 601C             20         jz first_col
+0063 EB               21         mov a , r3 
+0064 64D0             22         xrl a , #0D0H 
+0066 602D             23         jz second_col
+0068 EB               24         mov a , r3 
+0069 64B0             25         xrl a , #0B0H 
+006B 603E             26         jz third_col
+006D EB               27         mov a , r3 
+006E 6470             28         xrl a , #070H 
+0070 604F             29         jz four_col
+                      30     
+0072 0C               31         inc r4  
+                      32     
+0073 EA               33         mov a , r2 
+0074 03               34         rr a 
+0075 FA               35         mov r2 , a 
+0076 BAF7DB           36         cjne r2 , #0F7H , Read 
+0079 7A7F             37         mov r2 , #01111111b  
+007B 7C00             38         mov r4 , #0 
+007D 80D5             39         jmp Read 
+                      40     
+007F                  41     first_col: 
+                      42         
+007F EC               43         mov a , r4 
+0080 7B00             44         mov r3 , #0 
+0082 BC0008           45         cjne r4 , #0 , dis1 
+0085                  46     L1:
+0085 11F1             47         acall anti_clock_ch 
+0087 0B               48         inc r3 
+0088 BB01FA           49         cjne r3 , #1 , L1     
+008B 80C7             50         jmp Read  
+008D                  51     dis1:
+008D 11D7             52         acall clock_ch 
+008F 0B               53         inc r3 
+0090 BB01FA           54         cjne r3 , #1 , dis1
+0093 80BF             55         jmp Read 
+                      56     
+0095                  57     second_col:
+                      58         
+A51 MACRO ASSEMBLER  QTION2                                                               11/10/2021 15:38:12 PAGE     2
+
+0095 EC               59         mov a , r4 
+0096 7B00             60         mov r3 , #0 
+0098 BC0008           61         cjne r4 , #0 , dis2 
+009B                  62     L2:
+009B 11F1             63         acall anti_clock_ch 
+009D 0B               64         inc r3 
+009E BB02FA           65         cjne r3 , #2 , L2
+00A1 80B1             66         jmp Read
+00A3                  67     dis2:
+00A3 11D7             68         acall clock_ch 
+00A5 0B               69         inc r3 
+00A6 BB02FA           70         cjne r3 , #2 , dis2
+00A9 80A9             71         jmp Read 
+                      72     
+00AB                  73     third_col:
+                      74         
+00AB EC               75         mov a , r4  
+00AC 7B00             76         mov r3 , #0 
+00AE BC0008           77         cjne r4 , #0 , dis3 
+00B1                  78     L3:
+00B1 11F1             79         acall anti_clock_ch 
+00B3 0B               80         inc r3 
+00B4 BB03FA           81         cjne r3 , #3 , L3
+00B7 809B             82         jmp Read
+00B9                  83     dis3:
+00B9 11D7             84         acall clock_ch 
+00BB 0B               85         inc r3 
+00BC BB03FA           86         cjne r3 , #3 , dis3
+00BF 8093             87         jmp Read 
+                      88     
+00C1                  89     four_col: 
+                      90         
+00C1 EC               91         mov a , r4 
+                      92     
+00C2 7B00             93         mov r3 , #0 
+00C4 BC0008           94         cjne r4 , #0 , dis4 
+00C7                  95     L4:
+00C7 11F1             96         acall anti_clock_ch 
+00C9 0B               97         inc r3 
+00CA BB04FA           98         cjne r3 , #4 , L4
+                      99     
+00CD 8085            100         jmp Read
+                     101     
+00CF                 102     dis4:
+00CF 11D7            103         acall clock_ch 
+00D1 0B              104         inc r3 
+00D2 BB04FA          105         cjne r3 , #4 , dis4
+00D5 0154            106         jmp Read
+                     107     
+00D7                 108     clock_ch:
+00D7 7800            109         mov r0 , #0 
+00D9 7900            110         mov r1 , #0 
+00DB 7411            111         mov a , #00010001b
+00DD                 112     clock_ch_1:
+00DD F580            113         mov p0 , a  
+00DF 3118            114         acall delay_c 
+00E1 23              115         rl a
+00E2 08              116         inc r0 
+00E3 B801F7          117         cjne r0 , #1 , clock_ch_1  
+00E6 7800            118         mov r0 , #0     
+00E8 09              119         inc r1 
+                     120     
+00E9 B953F1          121         cjne r1 , #83, clock_ch_1 
+00EC 7800            122         mov r0 , #0 
+00EE 7900            123         mov r1 , #0 
+00F0 22              124         ret 
+A51 MACRO ASSEMBLER  QTION2                                                               11/10/2021 15:38:12 PAGE     3
+
+00F1                 125     anti_clock_ch:
+00F1 7800            126         mov r0 , #0 
+00F3 7900            127         mov r1 , #0
+00F5 7488            128         mov a , #10001000b
+00F7                 129     anti_clock_ch_1:
+00F7 F580            130         mov p0 , a  
+00F9 3118            131         acall delay_c 
+00FB 03              132         rr a
+00FC 08              133         inc r0 
+00FD B801F7          134         cjne r0 , #1 , anti_clock_ch_1  
+0100 7800            135         mov r0 , #0     
+0102 09              136         inc r1 
+                     137     
+0103 B953F1          138         cjne r1 , #83, anti_clock_ch_1 
+0106 7800            139         mov r0 , #0 
+0108 7900            140         mov r1 , #0 
+010A 22              141         ret 
+                     142     
+010B                 143     Delay_keyboard:
+010B 7D0A            144             mov r5,#00AH
+010D                 145     Del1:
+010D 7E0A            146             mov r6,#00AH
+010F                 147     Del2:
+010F 7F01            148             mov r7,#1H
+0111                 149     Del3:
+0111 DFFE            150             djnz r7,Del3
+0113 DEFA            151             djnz r6,Del2
+0115 DDF6            152             djnz r5,Del1
+0117 22              153             ret
+0118                 154     delay_c: 
+0118 7D09            155         mov r5,#009H
+011A                 156     delay1_c:
+011A 7E0C            157             mov r6,#00CH
+011C                 158     delay2_c:
+011C 7F6A            159         mov r7,#06AH
+011E                 160     delay3_c:
+011E DFFE            161             djnz r7,delay3_c
+0120 DEFA            162             djnz r6,delay2_c
+0122 DDF6            163         djnz r5,delay1_c 
+0124 22              164             ret
+                     165     end 
+A51 MACRO ASSEMBLER  QTION2                                                               11/10/2021 15:38:12 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ANTI_CLOCK_CH. . .  C ADDR   00F1H   A   
+ANTI_CLOCK_CH_1. .  C ADDR   00F7H   A   
+CLOCK_CH . . . . .  C ADDR   00D7H   A   
+CLOCK_CH_1 . . . .  C ADDR   00DDH   A   
+COUNTER. . . . . .    REG    R0          
+DEL1 . . . . . . .  C ADDR   010DH   A   
+DEL2 . . . . . . .  C ADDR   010FH   A   
+DEL3 . . . . . . .  C ADDR   0111H   A   
+DELAY1_C . . . . .  C ADDR   011AH   A   
+DELAY2_C . . . . .  C ADDR   011CH   A   
+DELAY3_C . . . . .  C ADDR   011EH   A   
+DELAY_C. . . . . .  C ADDR   0118H   A   
+DELAY_KEYBOARD . .  C ADDR   010BH   A   
+DIS1 . . . . . . .  C ADDR   008DH   A   
+DIS2 . . . . . . .  C ADDR   00A3H   A   
+DIS3 . . . . . . .  C ADDR   00B9H   A   
+DIS4 . . . . . . .  C ADDR   00CFH   A   
+FIRST_COL. . . . .  C ADDR   007FH   A   
+FOUR_COL . . . . .  C ADDR   00C1H   A   
+L1 . . . . . . . .  C ADDR   0085H   A   
+L2 . . . . . . . .  C ADDR   009BH   A   
+L3 . . . . . . . .  C ADDR   00B1H   A   
+L4 . . . . . . . .  C ADDR   00C7H   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+READ . . . . . . .  C ADDR   0054H   A   
+SECOND_COL . . . .  C ADDR   0095H   A   
+THIRD_COL. . . . .  C ADDR   00ABH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

@@ -1,0 +1,357 @@
+BL51 BANKED LINKER/LOCATER V6.15                                                        01/18/2022  01:37:38  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.15, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE main_dic.obj TO FinalProject RAMSIZE (256) CODE (0X0000-0XFFFF) XDATA (0X0000-0X03FF)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  main_dic.obj (MAIN_DIC)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?CLDOPTR)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?IMUL)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?SIDIV)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?CCASE)
+  C:\KEIL\C51\LIB\C51S.LIB (RAND)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?UIDIV)
+
+
+LINK MAP OF MODULE:  FinalProject (MAIN_DIC)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0004H     UNIT         ?DT?_LCD_UPLOAD_STR?MAIN_DIC
+            DATA    000CH     0004H     UNIT         ?DT?RAND?RAND
+            REG     0010H     0008H     ABSOLUTE     "REG BANK 2"
+            DATA    0018H     001FH     UNIT         ?DT?MAIN_DIC
+            DATA    0037H     0003H     UNIT         ?DT?_DELAYMS?MAIN_DIC
+            DATA    003AH     0001H     UNIT         ?DT?_LCDSETUPCMD?MAIN_DIC
+            DATA    003BH     0001H     UNIT         ?DT?_LCDUPLOADDATA?MAIN_DIC
+            IDATA   003CH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0003H     ABSOLUTE     
+                    0006H     000DH                  *** GAP ***
+            CODE    0013H     0003H     ABSOLUTE     
+                    0016H     07EAH                  *** GAP ***
+            CODE    0800H     00F0H     UNIT         ?C?LIB_CODE
+            CODE    08F0H     00DDH     UNIT         ?PR?DIC_PICK_INTER_INPUT?MAIN_DIC
+            CODE    09CDH     008CH     UNIT         ?C_C51STARTUP
+            CODE    0A59H     004FH     UNIT         ?PR?MODE_CHANGE_INTER?MAIN_DIC
+            CODE    0AA8H     004DH     UNIT         ?PR?RAND?RAND
+            CODE    0AF5H     0039H     UNIT         ?PR?_DELAYMS?MAIN_DIC
+            CODE    0B2EH     0036H     UNIT         ?PR?_LCD_UPLOAD_STR?MAIN_DIC
+            CODE    0B64H     0030H     UNIT         ?PR?MAIN?MAIN_DIC
+            CODE    0B94H     0026H     UNIT         ?C_INITSEG
+            CODE    0BBAH     0021H     UNIT         ?PR?_LCDSETUPCMD?MAIN_DIC
+            CODE    0BDBH     0021H     UNIT         ?PR?_LCDUPLOADDATA?MAIN_DIC
+            CODE    0BFCH     001AH     UNIT         ?PR?LCDINIT?MAIN_DIC
+            CODE    0C16H     0019H     UNIT         ?CO?MAIN_DIC
+
+
+
+BL51 BANKED LINKER/LOCATER V6.15                                                      01/18/2022  01:37:38  PAGE 2
+
+
+OVERLAY MAP OF MODULE:   FinalProject (MAIN_DIC)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?PR?DIC_PICK_INTER_INPUT?MAIN_DIC
+  +--> ?PR?_LCDSETUPCMD?MAIN_DIC
+  +--> ?PR?_LCDUPLOADDATA?MAIN_DIC
+  +--> ?PR?RAND?RAND
+  +--> ?CO?MAIN_DIC
+  +--> ?PR?_LCD_UPLOAD_STR?MAIN_DIC
+
+?PR?_LCDSETUPCMD?MAIN_DIC
+  +--> ?PR?_DELAYMS?MAIN_DIC
+
+?PR?_LCDUPLOADDATA?MAIN_DIC
+  +--> ?PR?_DELAYMS?MAIN_DIC
+
+?PR?_LCD_UPLOAD_STR?MAIN_DIC
+  +--> ?PR?_LCDUPLOADDATA?MAIN_DIC
+
+*** NEW ROOT ***************************************************
+
+?PR?MODE_CHANGE_INTER?MAIN_DIC
+  +--> ?PR?_LCDSETUPCMD?MAIN_DIC
+  +--> ?CO?MAIN_DIC
+  +--> ?PR?_LCD_UPLOAD_STR?MAIN_DIC
+
+*** NEW ROOT ***************************************************
+
+?C_C51STARTUP
+  +--> ?PR?MAIN?MAIN_DIC
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN_DIC
+  +--> ?PR?LCDINIT?MAIN_DIC
+
+?PR?LCDINIT?MAIN_DIC
+  +--> ?PR?_DELAYMS?MAIN_DIC
+  +--> ?PR?_LCDSETUPCMD?MAIN_DIC
+
+
+
+SYMBOL TABLE OF MODULE:  FinalProject (MAIN_DIC)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN_DIC
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0018H         PUBLIC        LCD_DDram
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00C0H         PUBLIC        XICON
+BL51 BANKED LINKER/LOCATER V6.15                                                      01/18/2022  01:37:38  PAGE 3
+
+
+  D:00E8H         PUBLIC        P4
+  D:001AH         PUBLIC        clean
+  B:00A8H.7       PUBLIC        EA
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  D:001BH         PUBLIC        state
+  D:00D8H         PUBLIC        CCON
+  C:0B64H         PUBLIC        main
+  D:001CH         PUBLIC        ss_display_table
+  C:0AF5H         PUBLIC        _DelayMs
+  D:0098H         PUBLIC        SCON
+  B:0080H.5       PUBLIC        P05
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  B:0080H.6       PUBLIC        P06
+  B:0080H.7       PUBLIC        P07
+  D:0026H         PUBLIC        Dic_arr
+  C:0BDBH         PUBLIC        _LCDUploadData
+  B:0088H.5       PUBLIC        TF0
+  D:008CH         PUBLIC        TH0
+  B:0088H.0       PUBLIC        IT0
+  B:00A8H.0       PUBLIC        EX0
+  B:0088H.2       PUBLIC        IT1
+  B:00A8H.2       PUBLIC        EX1
+  D:002EH         PUBLIC        total_dot
+  D:008AH         PUBLIC        TL0
+  D:002FH         PUBLIC        pos
+  C:08F0H         PUBLIC        dic_pick_inter_input
+  B:0088H.4       PUBLIC        TR0
+  D:0030H         PUBLIC        can_show
+  B:00B8H.0       PUBLIC        PX0
+  C:0BBAH         PUBLIC        _LCDSetUpCmd
+  D:0031H         PUBLIC        num_str_for_fun
+  D:0035H         PUBLIC        dic_num
+  D:00C8H         PUBLIC        T2CON
+  D:0036H         PUBLIC        i
+  C:0BFCH         PUBLIC        LCDInit
+  C:0A59H         PUBLIC        mode_change_inter
+  C:0B2EH         PUBLIC        _LCD_upload_str
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          _LCDSETUPCMD
+  D:003AH         SYMBOL        thing
+  C:0BBAH         LINE#         30
+  C:0BBCH         LINE#         31
+  C:0BBFH         LINE#         33
+  C:0BC4H         LINE#         35
+  C:0BC6H         LINE#         36
+  C:0BC8H         LINE#         37
+  C:0BCAH         LINE#         39
+  C:0BCFH         LINE#         40
+  C:0BD1H         LINE#         41
+  C:0BD3H         LINE#         42
+  C:0BD5H         LINE#         44
+  C:0BDAH         LINE#         48
+  -------         ENDPROC       _LCDSETUPCMD
+  -------         PROC          _LCDUPLOADDATA
+  D:003BH         SYMBOL        thing
+BL51 BANKED LINKER/LOCATER V6.15                                                      01/18/2022  01:37:38  PAGE 4
+
+
+  C:0BDBH         LINE#         50
+  C:0BDDH         LINE#         51
+  C:0BE0H         LINE#         53
+  C:0BE5H         LINE#         55
+  C:0BE7H         LINE#         56
+  C:0BE9H         LINE#         57
+  C:0BEBH         LINE#         59
+  C:0BF0H         LINE#         61
+  C:0BF2H         LINE#         62
+  C:0BF4H         LINE#         63
+  C:0BF6H         LINE#         65
+  C:0BFBH         LINE#         67
+  -------         ENDPROC       _LCDUPLOADDATA
+  -------         PROC          LCDINIT
+  C:0BFCH         LINE#         69
+  C:0BFCH         LINE#         70
+  C:0C01H         LINE#         71
+  C:0C06H         LINE#         72
+  C:0C0BH         LINE#         73
+  C:0C10H         LINE#         74
+  C:0C15H         LINE#         75
+  -------         ENDPROC       LCDINIT
+  -------         PROC          _LCD_UPLOAD_STR
+  D:0008H         SYMBOL        input_str
+  -------         DO            
+  D:000BH         SYMBOL        i
+  -------         ENDDO         
+  C:0B2EH         LINE#         77
+  C:0B34H         LINE#         78
+  C:0B37H         LINE#         79
+  C:0B4BH         LINE#         80
+  C:0B5FH         LINE#         81
+  C:0B61H         LINE#         82
+  C:0B63H         LINE#         84
+  -------         ENDPROC       _LCD_UPLOAD_STR
+  -------         PROC          _DELAYMS
+  D:0037H         SYMBOL        mS
+  -------         DO            
+  D:0038H         SYMBOL        need_delay
+  -------         ENDDO         
+  C:0AF5H         LINE#         150
+  C:0AF7H         LINE#         151
+  C:0B09H         LINE#         152
+  C:0B0CH         LINE#         153
+  C:0B17H         LINE#         154
+  C:0B1EH         LINE#         155
+  C:0B24H         LINE#         156
+  C:0B26H         LINE#         157
+  C:0B29H         LINE#         159
+  C:0B29H         LINE#         160
+  C:0B2BH         LINE#         161
+  C:0B2DH         LINE#         176
+  -------         ENDPROC       _DELAYMS
+  -------         PROC          DIC_PICK_INTER_INPUT
+  C:08F0H         LINE#         31
+  C:08FDH         LINE#         33
+  C:090CH         LINE#         34
+BL51 BANKED LINKER/LOCATER V6.15                                                      01/18/2022  01:37:38  PAGE 5
+
+
+  C:090CH         LINE#         35
+  C:090EH         LINE#         36
+  C:0915H         LINE#         37
+  C:0918H         LINE#         38
+  C:0918H         LINE#         43
+  C:091DH         LINE#         44
+  C:0925H         LINE#         47
+  C:0928H         LINE#         48
+  C:0928H         LINE#         50
+  C:092BH         LINE#         51
+  C:0935H         LINE#         52
+  C:094CH         LINE#         53
+  C:0959H         LINE#         54
+  C:095DH         LINE#         56
+  C:0960H         LINE#         57
+  C:096AH         LINE#         58
+  C:096FH         LINE#         59
+  C:097EH         LINE#         60
+  C:0982H         LINE#         61
+  C:0986H         LINE#         64
+  C:098BH         LINE#         65
+  C:0994H         LINE#         69
+  C:099BH         LINE#         70
+  C:09A9H         LINE#         71
+  C:09B8H         LINE#         72
+  C:09BAH         LINE#         73
+  C:09BAH         LINE#         74
+  C:09C2H         LINE#         75
+  C:09C2H         LINE#         78
+  C:09C2H         LINE#         79
+  C:09C2H         LINE#         80
+  C:09C2H         LINE#         81
+  C:09C2H         LINE#         82
+  -------         ENDPROC       DIC_PICK_INTER_INPUT
+  -------         PROC          MODE_CHANGE_INTER
+  C:0A59H         LINE#         84
+  C:0A66H         LINE#         85
+  C:0A68H         LINE#         91
+  C:0A6FH         LINE#         92
+  C:0A72H         LINE#         94
+  C:0A75H         LINE#         95
+  C:0A75H         LINE#         96
+  C:0A7AH         LINE#         97
+  C:0A7FH         LINE#         99
+  C:0A84H         LINE#         100
+  C:0A8DH         LINE#         102
+  C:0A8FH         LINE#         103
+  C:0A8FH         LINE#         105
+  C:0A94H         LINE#         106
+  C:0A9DH         LINE#         107
+  C:0A9DH         LINE#         108
+  -------         ENDPROC       MODE_CHANGE_INTER
+  -------         PROC          MAIN
+  C:0B64H         LINE#         113
+  C:0B64H         LINE#         115
+  C:0B66H         LINE#         116
+  C:0B68H         LINE#         118
+BL51 BANKED LINKER/LOCATER V6.15                                                      01/18/2022  01:37:38  PAGE 6
+
+
+  C:0B6AH         LINE#         119
+  C:0B6CH         LINE#         121
+  C:0B6EH         LINE#         122
+  C:0B70H         LINE#         125
+  C:0B73H         LINE#         126
+  C:0B76H         LINE#         127
+  C:0B79H         LINE#         129
+  C:0B7CH         LINE#         130
+  C:0B7CH         LINE#         132
+  C:0B8BH         LINE#         133
+  C:0B8BH         LINE#         137
+  C:0B8DH         LINE#         138
+  C:0B8DH         LINE#         159
+  C:0B8FH         LINE#         162
+  C:0B8FH         LINE#         163
+  C:0B91H         LINE#         164
+  C:0B91H         LINE#         170
+  C:0B93H         LINE#         175
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        MAIN_DIC
+
+  -------         MODULE        ?C?CLDOPTR
+  C:0800H         PUBLIC        ?C?CLDOPTR
+  -------         ENDMOD        ?C?CLDOPTR
+
+  -------         MODULE        ?C?IMUL
+  C:082DH         PUBLIC        ?C?IMUL
+  -------         ENDMOD        ?C?IMUL
+
+  -------         MODULE        ?C?SIDIV
+  C:083FH         PUBLIC        ?C?SIDIV
+  -------         ENDMOD        ?C?SIDIV
+
+  -------         MODULE        ?C?CCASE
+  C:0875H         PUBLIC        ?C?CCASE
+  -------         ENDMOD        ?C?CCASE
+
+  -------         MODULE        RAND
+  D:000CH         PUBLIC        ?SRAND?BYTE
+  C:0AA8H         PUBLIC        RAND
+  C:0AEAH         PUBLIC        _SRAND
+  -------         ENDMOD        RAND
+
+  -------         MODULE        ?C?UIDIV
+  C:089BH         PUBLIC        ?C?UIDIV
+  -------         ENDMOD        ?C?UIDIV
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 026BH BYTE (30%) *
+******************************************************************************
+
+Program Size: data=61.0 xdata=0 code=1080
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

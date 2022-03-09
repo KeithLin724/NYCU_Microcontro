@@ -1,0 +1,137 @@
+A51 MACRO ASSEMBLER  QTION3                                                               10/19/2021 19:47:41 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Qtion3.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Qtion3.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     org 0000H
+0000 0150              2     ajmp main
+0050                   3     org 0050H
+                       4     
+0050                   5     main:
+0050 9000C2            6         mov dptr ,#num_table
+0053                   7     set_init:
+0053 7800              8         mov r0 ,#0  
+0055 7900              9         mov r1 ,#0  
+0057 7A01             10         mov r2 ,#1  
+                      11         
+0059 7B00             12         mov r3 ,#0  
+005B 7C00             13         mov r4 ,#0  
+005D                  14     Loop:
+005D EA               15         mov a , r2  
+005E 75F00A           16         mov b , #10
+0061 84               17         div ab
+0062 FC               18         mov r4 , a  
+                      19     
+0063 7590FF           20         mov p1 , #0FFH  
+0066 E5F0             21         mov a , b
+0068 93               22         movc a , @a+dptr
+0069 F580             23         mov p0 , a  
+006B 7590FE           24         mov p1 , #0FEH  
+006E 11B5             25         acall DELAY
+                      26     
+0070 EC               27         mov a , r4  
+0071 75F00A           28         mov b , #10
+0074 84               29         div ab
+0075 FC               30         mov r4 , a  
+                      31     
+0076 7590FF           32         mov p1 , #0FFH  
+0079 E5F0             33         mov a , b
+007B 93               34         movc a , @a+dptr
+007C F580             35         mov p0 , a  
+007E 7590FD           36         mov p1 , #0FDH  
+0081 11B5             37         acall DELAY  
+                      38     
+0083 EC               39         mov a , r4  
+0084 75F00A           40         mov b , #10
+0087 84               41         div ab
+0088 FC               42         mov r4 , a  
+                      43     
+0089 7590FF           44         mov p1 , #0FFH  
+008C E5F0             45         mov a , b
+008E 93               46         movc a , @a+dptr
+008F F580             47         mov p0 , a  
+0091 7590FB           48         mov p1 , #0FBH  
+0094 11B5             49         acall DELAY  
+                      50     
+0096 7590FF           51         mov p1 , #0FFH 
+0099 7580FF           52         mov p0 , #0FFH  
+009C 7590F7           53         mov p1 , #0F7H  
+009F 08               54         inc r0 
+00A0 11B5             55         acall DELAY  
+                      56     
+00A2 B8FAB8           57         cjne r0 , #0FAH , Loop
+                      58         
+A51 MACRO ASSEMBLER  QTION3                                                               10/19/2021 19:47:41 PAGE     2
+
+00A5 EA               59         mov a , r2
+00A6 64E9             60         xrl a , #233  
+00A8 60A9             61         jz set_init
+00AA 7800             62         mov r0 , #0
+                      63     
+                      64     
+00AC                  65     fun:
+00AC E9               66         mov a , r1 
+00AD FB               67         mov r3 , a  
+                      68     
+00AE EA               69         mov a , r2 
+00AF F9               70         mov r1 , a  
+                      71     
+00B0 EB               72         mov a , r3
+00B1 2A               73         add a , r2
+00B2 FA               74         mov r2 , a 
+                      75         
+00B3 015D             76         ajmp Loop
+                      77     
+                      78     
+                      79     
+                      80     
+00B5                  81     DELAY:
+00B5 7DFF             82             MOV R5,#0FFH
+00B7                  83     DELAY1:
+00B7 7E05             84             MOV R6,#005H
+00B9                  85     DELAY2:
+00B9 7F01             86             MOV R7,#1H
+00BB                  87     DELAY3:
+00BB DFFE             88             DJNZ R7,DELAY3
+00BD DEFA             89             DJNZ R6,DELAY2
+00BF DDF6             90             DJNZ R5,DELAY1
+00C1 22               91             RET
+                      92     
+00C2                  93     num_table:
+                      94             
+00C2 FFF9A4B0         95         db  0FFH, 0F9H,     0A4H, 0B0H,     099H
+00C6 99                      
+                      96             
+00C7 9282F880         97             db      092H, 082H,     0F8H, 080H,     090H
+00CB 90                      
+                      98         END
+A51 MACRO ASSEMBLER  QTION3                                                               10/19/2021 19:47:41 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+B. . . . . . . . .  D ADDR   00F0H   A   
+DELAY. . . . . . .  C ADDR   00B5H   A   
+DELAY1 . . . . . .  C ADDR   00B7H   A   
+DELAY2 . . . . . .  C ADDR   00B9H   A   
+DELAY3 . . . . . .  C ADDR   00BBH   A   
+FUN. . . . . . . .  C ADDR   00ACH   A   
+LOOP . . . . . . .  C ADDR   005DH   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+NUM_TABLE. . . . .  C ADDR   00C2H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+SET_INIT . . . . .  C ADDR   0053H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

@@ -1,0 +1,164 @@
+A51 MACRO ASSEMBLER  TEST_TABLE                                                           11/23/2021 18:06:34 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN test_table.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE test_table.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1         org 0000H
+0000 0150              2         ajmp main
+0050                   3         org 0050H
+                       4     
+  00B0                 5     LCD_set equ p3 
+  00A0                 6     LCD_data_bus equ p2 
+  REG                  7     counter equ r0
+  REG                  8     display_pos equ r1 
+                       9     
+0050                  10     main:
+0050                  11     init_LCD:
+0050 11B2             12         acall Delay_cmd 
+0052 11B2             13         acall Delay_cmd  
+                      14     
+0054 743B             15         mov a , #00111011b  
+0056 1194             16         acall set_up_cmd 
+                      17     
+0058 740C             18         mov a , #00001100b  
+005A 1194             19         acall set_up_cmd
+                      20     
+005C 7401             21         mov a , #1 
+005E 1194             22         acall set_up_cmd 
+                      23     
+0060 11B2             24         acall Delay_cmd 
+0062 11B2             25         acall Delay_cmd  
+                      26     
+0064                  27     CG_upload_data:
+0064 7440             28         mov a , #01000000b  
+0066 1194             29         acall set_up_cmd 
+0068 9000CC           30         mov dptr , #mov_table 
+006B                  31     Up_load_Loop:
+006B E4               32         clr a 
+006C 93               33         movc a , @a+dptr 
+006D 6005             34         jz show_loop_init_display 
+006F 11A3             35         acall upload_data 
+0071 A3               36         inc dptr 
+                      37     
+0072 80F7             38         jmp Up_load_Loop 
+0074                  39     show_loop_init_display:
+0074 7980             40         mov display_pos , #0080H
+0076 7800             41         mov counter , #0000H  
+0078                  42     show_loop:
+0078 E9               43         mov a , display_pos  
+0079 1194             44         acall set_up_cmd 
+                      45     
+007B E8               46         mov a , counter  
+007C 11A3             47         acall upload_data 
+007E 11BF             48         acall delay
+                      49     
+0080 08               50         inc counter 
+0081 B802F4           51         cjne counter , #0002H , show_loop 
+0084 7800             52         mov counter , #0000H  
+0086 09               53         inc display_pos
+                      54     
+0087 7401             55         mov a , #1 
+0089 1194             56         acall set_up_cmd
+008B 11B2             57         acall Delay_cmd 
+008D 11B2             58         acall Delay_cmd  
+A51 MACRO ASSEMBLER  TEST_TABLE                                                           11/23/2021 18:06:34 PAGE     2
+
+                      59     
+008F B990E6           60         cjne display_pos , #090H , show_loop 
+0092 80E0             61         jmp show_loop_init_display
+                      62     
+0094                  63     set_up_cmd:  
+0094 F5A0             64         mov LCD_data_bus , a 
+0096 11B2             65         acall Delay_cmd 
+                      66     
+0098 75B004           67         mov LCD_set , #00000100b 
+009B 11B2             68         acall Delay_cmd 
+                      69     
+009D 75B000           70         mov LCD_set , #00000000b 
+00A0 11B2             71         acall Delay_cmd 
+00A2 22               72         ret 
+                      73     
+00A3                  74     upload_data:
+00A3 F5A0             75         mov LCD_data_bus , a 
+00A5 11B2             76         acall Delay_cmd 
+                      77         
+00A7 75B005           78         mov LCD_set , #00000101b
+00AA 11B2             79         acall Delay_cmd 
+                      80     
+00AC 75B001           81         mov LCD_set , #00000001b 
+00AF 11B2             82         acall Delay_cmd 
+00B1 22               83         ret
+                      84     
+00B2                  85     Delay_cmd:
+00B2 7D0A             86             mov r5,#10
+00B4                  87     Del1:
+00B4 7EF0             88             mov r6,#0F0H
+00B6                  89     Del2:
+00B6 7F0A             90             mov r7,#10
+00B8                  91     Del3:
+00B8 DFFE             92             djnz r7,Del3
+00BA DEFA             93             djnz r6,Del2
+00BC DDF6             94             djnz r5,Del1
+00BE 22               95             ret
+                      96     
+00BF                  97     delay:
+00BF 7DFF             98             mov r5,#0FFH
+00C1                  99     delay1:
+00C1 7EFF            100             mov r6,#0FFH
+00C3                 101     delay2:
+00C3 7F0F            102             mov r7,#00FH
+00C5                 103     delay3:
+00C5 DFFE            104             djnz r7,delay3
+00C7 DEFA            105             djnz r6,delay2
+00C9 DDF6            106             djnz r5,delay1
+00CB 22              107             ret
+                     108     
+00CC                 109     mov_table:  
+00CC 0A80801F        110         db 00AH , 080H , 080H , 01FH , 01FH , 080H , 080H , 080H  
+00D0 1F808080                
+00D4 0A801F11        111         db 00AH , 080H , 01FH , 011H , 011H , 01FH , 080H , 080H
+00D8 111F8080                
+00DC 00              112         db 0  
+                     113     
+                     114         end 
+A51 MACRO ASSEMBLER  TEST_TABLE                                                           11/23/2021 18:06:34 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E                 T Y P E  V A L U E   ATTRIBUTES
+
+CG_UPLOAD_DATA . . . .  C ADDR   0064H   A   
+COUNTER. . . . . . . .    REG    R0          
+DEL1 . . . . . . . . .  C ADDR   00B4H   A   
+DEL2 . . . . . . . . .  C ADDR   00B6H   A   
+DEL3 . . . . . . . . .  C ADDR   00B8H   A   
+DELAY. . . . . . . . .  C ADDR   00BFH   A   
+DELAY1 . . . . . . . .  C ADDR   00C1H   A   
+DELAY2 . . . . . . . .  C ADDR   00C3H   A   
+DELAY3 . . . . . . . .  C ADDR   00C5H   A   
+DELAY_CMD. . . . . . .  C ADDR   00B2H   A   
+DISPLAY_POS. . . . . .    REG    R1          
+INIT_LCD . . . . . . .  C ADDR   0050H   A   
+LCD_DATA_BUS . . . . .  D ADDR   00A0H   A   
+LCD_SET. . . . . . . .  D ADDR   00B0H   A   
+MAIN . . . . . . . . .  C ADDR   0050H   A   
+MOV_TABLE. . . . . . .  C ADDR   00CCH   A   
+P2 . . . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . . . .  D ADDR   00B0H   A   
+SET_UP_CMD . . . . . .  C ADDR   0094H   A   
+SHOW_LOOP. . . . . . .  C ADDR   0078H   A   
+SHOW_LOOP_INIT_DISPLAY  C ADDR   0074H   A   
+UPLOAD_DATA. . . . . .  C ADDR   00A3H   A   
+UP_LOAD_LOOP . . . . .  C ADDR   006BH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

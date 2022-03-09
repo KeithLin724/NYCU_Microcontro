@@ -1,0 +1,66 @@
+A51 MACRO ASSEMBLER  MAIN3_COLOR                                                          09/30/2021 23:02:36 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN main3_color.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE main3_color.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1         ORG 0000H
+0000 0150              2         AJMP MAIN 
+0050                   3         ORG 0050H
+0050                   4     MAIN:
+0050 78FF              5         MOV R0,#0FFH; make a value in R0
+0052 7942              6         MOV R1,#042H;
+0054 C3                7         CLR C ;clear carry  
+0055                   8     LOOP:
+0055 E9                9         MOV A,R1;
+0056 F580             10         MOV P0,A ;
+                      11         
+0058 E8               12         MOV A , R0 ;move R0 to A  
+0059 13               13         RRC A      ; right shift and put carry in A 
+005A F590             14         MOV P1, A  ; move A to P1  
+                      15     
+005C B3               16         CPL C      ; opposite carry 
+005D F8               17         MOV R0,A   ; move A to R0 
+                      18         
+                      19     
+                      20     
+005E 1162             21         ACALL DELAY;  Absolutely call delay function
+0060 80F3             22         JMP LOOP   ; jump  to label "LOOP"
+                      23     
+0062                  24     DELAY:
+0062 7DFF             25         MOV R5,#0FFH;  
+0064                  26     DELAY1:
+0064 7EFF             27         MOV R6,#0FFH; 
+0066                  28     DELAY2:
+0066 7F05             29         MOV R7,#05H;  
+0068                  30     DELAY3:
+0068 DFFE             31         djnz R7,DELAY3 
+006A DEFA             32         djnz R6,DELAY2 
+006C DDF6             33         djnz R5,DELAY1 
+006E 22               34         RET  
+                      35         END
+A51 MACRO ASSEMBLER  MAIN3_COLOR                                                          09/30/2021 23:02:36 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   0062H   A   
+DELAY1 . . . . . .  C ADDR   0064H   A   
+DELAY2 . . . . . .  C ADDR   0066H   A   
+DELAY3 . . . . . .  C ADDR   0068H   A   
+LOOP . . . . . . .  C ADDR   0055H   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

@@ -1,0 +1,512 @@
+A51 MACRO ASSEMBLER  QTION2S                                                              12/21/2021 19:01:29 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Qtion2s.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Qtion2s.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     $nomod51    
+                       2     ;$include (REG_MPC82G516.INC)
+                +1     3     ;MPC82G516
+                +1     4     
+                +1     5     
+                +1     6     ;(System)
+  00E0          +1     7     ACC      DATA   0E0H
+  00F0          +1     8     B        DATA   0F0H
+  0081          +1     9     SP       DATA   81H
+  0082          +1    10     DPL      DATA   82H
+  0083          +1    11     DPH      DATA   83H
+  00D0          +1    12     PSW      DATA   0D0H
+                +1    13     
+                +1    14     ;(Interrupt)
+  00A8          +1    15     IE       DATA   0A8H
+  00AD          +1    16     AUXIE    DATA   0ADh
+  00C0          +1    17     XICON    DATA   0C0h
+  00B8          +1    18     IP       DATA   0B8H
+  00B7          +1    19     IPH      DATA   0B7h
+  00AE          +1    20     AUXIP    DATA   0AEh
+  00AF          +1    21     AUXIPH   DATA   0AFh
+                +1    22     
+                +1    23     ;(I/O Port)
+  0080          +1    24     P0       DATA   80H
+  0090          +1    25     P1       DATA   90H
+  00A0          +1    26     P2       DATA   0A0H
+  00B0          +1    27     P3       DATA   0B0H
+  00E8          +1    28     P4       DATA   0E8h
+  0093          +1    29     P0M0     DATA   93h
+  0094          +1    30     P0M1     DATA   94h
+  0091          +1    31     P1M0     DATA   91h
+  0092          +1    32     P1M1     DATA   92h
+  0095          +1    33     P2M0     DATA   95h
+  0096          +1    34     P2M1     DATA   96h
+  00B1          +1    35     P3M0     DATA   0B1h
+  00B2          +1    36     P3M1     DATA   0B2h
+  00B3          +1    37     P4M0     DATA   0B3h
+  00B4          +1    38     P4M1     DATA   0B4h
+                +1    39     
+                +1    40     ;(Timer)
+  0088          +1    41     TCON     DATA   88H
+  0089          +1    42     TMOD     DATA   89H
+  00C8          +1    43     T2CON    DATA   0C8H
+  00C9          +1    44     T2MOD    DATA   0C9h
+  00CA          +1    45     RCAP2L   DATA   0CAH
+  00CB          +1    46     RCAP2H   DATA   0CBH
+  008A          +1    47     TL0      DATA   8AH
+  008B          +1    48     TL1      DATA   8BH
+  008C          +1    49     TH0      DATA   8CH
+  008D          +1    50     TH1      DATA   8DH
+  00CC          +1    51     TL2      DATA   0CCH
+  00CD          +1    52     TH2      DATA   0CDH
+                +1    53     
+                +1    54     ;(Serial Port)
+  0098          +1    55     SCON     DATA   98H
+  0099          +1    56     SBUF     DATA   99H
+  00A9          +1    57     SADDR    DATA   0A9h
+  00B9          +1    58     SADEN    DATA   0B9h
+A51 MACRO ASSEMBLER  QTION2S                                                              12/21/2021 19:01:29 PAGE     2
+
+  00AA          +1    59     S2CON    DATA   0AAh
+  00BA          +1    60     S2BRT    DATA   0BAh
+  009A          +1    61     S2BUF    DATA   9Ah
+                +1    62     
+                +1    63     ;(ADC)
+  00C5          +1    64     ADCTL    DATA   0C5h
+  00C6          +1    65     ADCH     DATA   0C6h
+  00BE          +1    66     ADCL     DATA   0BEh
+  00C6          +1    67     ADC      DATA   0C6h ;the same as ADCH, the higher 8 bits
+                +1    68     
+                +1    69     ;(Keypad Interrupt)
+  00D6          +1    70     KBCON    DATA   0D6h
+  00D5          +1    71     KBPATN   DATA   0D5h
+  00D7          +1    72     KBMASK   DATA   0D7h
+                +1    73     
+                +1    74     ;(SPI)
+  0085          +1    75     SPCTL    DATA   85h
+  0086          +1    76     SPDAT    DATA   86h
+  0084          +1    77     SPSTAT   DATA   84h
+                +1    78     
+                +1    79     ;(PCA)
+  00D8          +1    80     CCON     DATA   0D8h
+  00D9          +1    81     CMOD     DATA   0D9h
+  00E9          +1    82     CL       DATA   0E9h
+  00F9          +1    83     CH       DATA   0F9h
+  00DA          +1    84     CCAPM0   DATA   0DAh
+  00DB          +1    85     CCAPM1   DATA   0DBh
+  00DC          +1    86     CCAPM2   DATA   0DCh
+  00DD          +1    87     CCAPM3   DATA   0DDh
+  00DE          +1    88     CCAPM4   DATA   0DEh
+  00DF          +1    89     CCAPM5   DATA   0DFh
+  00FA          +1    90     CCAP0H   DATA   0FAh
+  00EA          +1    91     CCAP0L   DATA   0EAh
+  00FB          +1    92     CCAP1H   DATA   0FBh
+  00EB          +1    93     CCAP1L   DATA   0EBh
+  00FC          +1    94     CCAP2H   DATA   0FCh
+  00EC          +1    95     CCAP2L   DATA   0ECh
+  00FD          +1    96     CCAP3H   DATA   0FDh
+  00ED          +1    97     CCAP3L   DATA   0EDh
+  00FE          +1    98     CCAP4H   DATA   0FEh
+  00EE          +1    99     CCAP4L   DATA   0EEh
+  00FF          +1   100     CCAP5H   DATA   0FFh
+  00EF          +1   101     CCAP5L   DATA   0EFh
+  00F2          +1   102     PCAPWM0  DATA   0F2h
+  00F3          +1   103     PCAPWM1  DATA   0F3h
+  00F4          +1   104     PCAPWM2  DATA   0F4h
+  00F5          +1   105     PCAPWM3  DATA   0F5h
+  00F6          +1   106     PCAPWM4  DATA   0F6h
+  00F7          +1   107     PCAPWM5  DATA   0F7h
+                +1   108     
+                +1   109     ;(Others)
+  0087          +1   110     PCON     DATA   87H
+  00C7          +1   111     PCON2    DATA   0C7h
+  008E          +1   112     AUXR     DATA   8Eh
+  00A2          +1   113     AUXR1    DATA   0A2h
+  00A6          +1   114     AUXR2    DATA   0A6h
+  008F          +1   115     STRETCH  DATA   8Fh
+  0097          +1   116     EVRCR    DATA   97h
+  00E1          +1   117     WDTCR    DATA   0E1h
+                +1   118     
+                +1   119     ;(ISP)
+  00E7          +1   120     ISPCR    DATA   0E7h
+  00E5          +1   121     IFMT     DATA   0E5h
+  00E2          +1   122     IFD      DATA   0E2h
+  00E3          +1   123     IFADRH   DATA   0E3h
+  00E4          +1   124     IFADRL   DATA   0E4h
+A51 MACRO ASSEMBLER  QTION2S                                                              12/21/2021 19:01:29 PAGE     3
+
+  00E6          +1   125     SCMD     DATA   0E6h
+                +1   126     
+                +1   127     ;(bits in PSW)
+  00D7          +1   128     CY       BIT    PSW.7
+  00D6          +1   129     AC       BIT    PSW.6
+  00D5          +1   130     F0       BIT    PSW.5
+  00D4          +1   131     RS1      BIT    PSW.4
+  00D3          +1   132     RS0      BIT    PSW.3
+  00D2          +1   133     OV       BIT    PSW.2
+  00D0          +1   134     P        BIT    PSW.0
+                +1   135     
+                +1   136     ;(bits in IE)
+  00AF          +1   137     EA       BIT    IE.7
+  00AD          +1   138     ET2      BIT    IE.5
+  00AC          +1   139     ES       BIT    IE.4
+  00AB          +1   140     ET1      BIT    IE.3
+  00AA          +1   141     EX1      BIT    IE.2
+  00A9          +1   142     ET0      BIT    IE.1
+  00A8          +1   143     EX0      BIT    IE.0
+                +1   144     
+                +1   145     ;(bits in IP)
+  00BD          +1   146     PT2      BIT    IP.5
+  00BC          +1   147     PS       BIT    IP.4
+  00BB          +1   148     PT1      BIT    IP.3
+  00BA          +1   149     PX1      BIT    IP.2
+  00B9          +1   150     PT0      BIT    IP.1
+  00B8          +1   151     PX0      BIT    IP.0
+                +1   152     
+                +1   153     ;(bits in SCON)
+  009F          +1   154     FE       BIT    SCON.7
+  009F          +1   155     SM0      BIT    SCON.7
+  009E          +1   156     SM1      BIT    SCON.6
+  009D          +1   157     SM2      BIT    SCON.5
+  009C          +1   158     REN      BIT    SCON.4
+  009B          +1   159     TB8      BIT    SCON.3
+  009A          +1   160     RB8      BIT    SCON.2
+  0099          +1   161     TI       BIT    SCON.1
+  0098          +1   162     RI       BIT    SCON.0
+                +1   163     
+                +1   164     ;(bits in TCON)
+  008F          +1   165     TF1      BIT    TCON.7
+  008E          +1   166     TR1      BIT    TCON.6
+  008D          +1   167     TF0      BIT    TCON.5
+  008C          +1   168     TR0      BIT    TCON.4
+  008B          +1   169     IE1      BIT    TCON.3
+  008A          +1   170     IT1      BIT    TCON.2
+  0089          +1   171     IE0      BIT    TCON.1
+  0088          +1   172     IT0      BIT    TCON.0
+                +1   173     
+                +1   174     ;(bits in T2CON)
+  00CF          +1   175     TF2      BIT    T2CON.7
+  00CE          +1   176     EXF2     BIT    T2CON.6
+  00CD          +1   177     RCLK     BIT    T2CON.5
+  00CC          +1   178     TCLK     BIT    T2CON.4
+  00CB          +1   179     EXEN2    BIT    T2CON.3
+  00CA          +1   180     TR2      BIT    T2CON.2
+  00C9          +1   181     C_T2     BIT    T2CON.1
+  00C8          +1   182     CP_RL2   BIT    T2CON.0
+                +1   183     
+                +1   184     ;(bits in CCON)
+  00DF          +1   185     CF       BIT    CCON.7
+  00DE          +1   186     CR       BIT    CCON.6
+  00DD          +1   187     CCF5     BIT    CCON.5
+  00DC          +1   188     CCF4     BIT    CCON.4
+  00DB          +1   189     CCF3     BIT    CCON.3
+  00DA          +1   190     CCF2     BIT    CCON.2
+A51 MACRO ASSEMBLER  QTION2S                                                              12/21/2021 19:01:29 PAGE     4
+
+  00D9          +1   191     CCF1     BIT    CCON.1
+  00D8          +1   192     CCF0     BIT    CCON.0
+                +1   193     
+                +1   194     ;(bits in XICON)
+  00C7          +1   195     PX3      BIT    XICON.7
+  00C6          +1   196     EX3      BIT    XICON.6
+  00C5          +1   197     IE3      BIT    XICON.5
+  00C4          +1   198     IT3      BIT    XICON.4
+  00C3          +1   199     PX2      BIT    XICON.3
+  00C2          +1   200     EX2      BIT    XICON.2
+  00C1          +1   201     IE2      BIT    XICON.1
+  00C0          +1   202     IT2      BIT    XICON.0
+                +1   203     
+                +1   204     ;(bits in P1, alternate)
+  0091          +1   205     T2EX     BIT    P1.1
+  0090          +1   206     T2       BIT    P1.0
+  0093          +1   207     S2TXD    BIT    P1.3
+  0092          +1   208     S2RXD    BIT    P1.2
+  0097          +1   209     SPI_CLK  BIT    P1.7
+  0096          +1   210     SPI_MISO BIT    P1.6
+  0095          +1   211     SPI_MOSI BIT    P1.5
+  0094          +1   212     SPI_SS   BIT    P1.4
+  0097          +1   213     CEX5     BIT    P1.7
+  0096          +1   214     CEX4     BIT    P1.6
+  0095          +1   215     CEX3     BIT    P1.5
+  0094          +1   216     CEX2     BIT    P1.4
+  0093          +1   217     CEX1     BIT    P1.3
+  0092          +1   218     CEX0     BIT    P1.2
+  0091          +1   219     ECI      BIT    P1.1
+                +1   220     
+                +1   221     ;(bits in P3, alternate)
+  00B7          +1   222     RD       BIT    P3.7
+  00B6          +1   223     WR       BIT    P3.6
+  00B5          +1   224     T1       BIT    P3.5
+  00B4          +1   225     T0       BIT    P3.4
+  00B3          +1   226     INT1     BIT    P3.3
+  00B2          +1   227     INT0     BIT    P3.2
+  00B1          +1   228     TXD      BIT    P3.1
+  00B0          +1   229     RXD      BIT    P3.0
+  00B5          +1   230     S2CKO    BIT    P3.5
+  00B4          +1   231     T0CKO    BIT    P3.4
+                +1   232     
+                +1   233     ;(bits in P4, alternate)
+  00EB          +1   234     INT2     BIT    P4.3
+  00EA          +1   235     INT3     BIT    P4.2
+                +1   236     
+                     237     
+                     238        
+0000                 239         org 0000H
+0000 0150            240         ajmp main 
+0050                 241         org 0050H
+                     242     
+                     243     
+  00FF               244     Baud_h equ 0FFH  
+  00D9               245     Baud_l equ 0D9H
+                     246     
+                     247     
+                     248     
+                     249     
+0050                 250     main:
+0050                 251     init_set:
+0050 75C830          252         mov t2con , #00110000b 
+                     253         
+                     254         
+                     255         
+0053 75CBFF          256         mov RCAP2H , #Baud_h
+A51 MACRO ASSEMBLER  QTION2S                                                              12/21/2021 19:01:29 PAGE     5
+
+0056 75CAD9          257         mov RCAP2L , #Baud_l
+                     258         
+0059 438780          259         orl pcon , #80H 
+005C D2CA            260         setb tr2
+                     261         
+005E C29D            262         clr sm2 
+0060 D29E            263         setb sm1  
+0062 C29F            264         clr sm0 
+0064 D29C            265         setb ren  
+                     266     
+0066                 267     receive:
+0066 C298            268         clr ri 
+0068 3098FD          269         jnb ri , $ 
+                     270     
+006B                 271     process:  
+006B E599            272         mov a , sbuf 
+006D 2420            273         add a , #32  
+006F C299            274         clr ti  
+0071                 275     send:  
+0071 F599            276         mov sbuf , a 
+0073 3099FD          277         jnb ti , $ 
+0076 0166            278         ajmp receive
+                     279     
+                     280      
+                     281         end 
+A51 MACRO ASSEMBLER  QTION2S                                                              12/21/2021 19:01:29 PAGE     6
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+AC . . . . . . . .  B ADDR   00D0H.6 A   
+ACC. . . . . . . .  D ADDR   00E0H   A   
+ADC. . . . . . . .  D ADDR   00C6H   A   
+ADCH . . . . . . .  D ADDR   00C6H   A   
+ADCL . . . . . . .  D ADDR   00BEH   A   
+ADCTL. . . . . . .  D ADDR   00C5H   A   
+AUXIE. . . . . . .  D ADDR   00ADH   A   
+AUXIP. . . . . . .  D ADDR   00AEH   A   
+AUXIPH . . . . . .  D ADDR   00AFH   A   
+AUXR . . . . . . .  D ADDR   008EH   A   
+AUXR1. . . . . . .  D ADDR   00A2H   A   
+AUXR2. . . . . . .  D ADDR   00A6H   A   
+B. . . . . . . . .  D ADDR   00F0H   A   
+BAUD_H . . . . . .  N NUMB   00FFH   A   
+BAUD_L . . . . . .  N NUMB   00D9H   A   
+CCAP0H . . . . . .  D ADDR   00FAH   A   
+CCAP0L . . . . . .  D ADDR   00EAH   A   
+CCAP1H . . . . . .  D ADDR   00FBH   A   
+CCAP1L . . . . . .  D ADDR   00EBH   A   
+CCAP2H . . . . . .  D ADDR   00FCH   A   
+CCAP2L . . . . . .  D ADDR   00ECH   A   
+CCAP3H . . . . . .  D ADDR   00FDH   A   
+CCAP3L . . . . . .  D ADDR   00EDH   A   
+CCAP4H . . . . . .  D ADDR   00FEH   A   
+CCAP4L . . . . . .  D ADDR   00EEH   A   
+CCAP5H . . . . . .  D ADDR   00FFH   A   
+CCAP5L . . . . . .  D ADDR   00EFH   A   
+CCAPM0 . . . . . .  D ADDR   00DAH   A   
+CCAPM1 . . . . . .  D ADDR   00DBH   A   
+CCAPM2 . . . . . .  D ADDR   00DCH   A   
+CCAPM3 . . . . . .  D ADDR   00DDH   A   
+CCAPM4 . . . . . .  D ADDR   00DEH   A   
+CCAPM5 . . . . . .  D ADDR   00DFH   A   
+CCF0 . . . . . . .  B ADDR   00D8H.0 A   
+CCF1 . . . . . . .  B ADDR   00D8H.1 A   
+CCF2 . . . . . . .  B ADDR   00D8H.2 A   
+CCF3 . . . . . . .  B ADDR   00D8H.3 A   
+CCF4 . . . . . . .  B ADDR   00D8H.4 A   
+CCF5 . . . . . . .  B ADDR   00D8H.5 A   
+CCON . . . . . . .  D ADDR   00D8H   A   
+CEX0 . . . . . . .  B ADDR   0090H.2 A   
+CEX1 . . . . . . .  B ADDR   0090H.3 A   
+CEX2 . . . . . . .  B ADDR   0090H.4 A   
+CEX3 . . . . . . .  B ADDR   0090H.5 A   
+CEX4 . . . . . . .  B ADDR   0090H.6 A   
+CEX5 . . . . . . .  B ADDR   0090H.7 A   
+CF . . . . . . . .  B ADDR   00D8H.7 A   
+CH . . . . . . . .  D ADDR   00F9H   A   
+CL . . . . . . . .  D ADDR   00E9H   A   
+CMOD . . . . . . .  D ADDR   00D9H   A   
+CP_RL2 . . . . . .  B ADDR   00C8H.0 A   
+CR . . . . . . . .  B ADDR   00D8H.6 A   
+CY . . . . . . . .  B ADDR   00D0H.7 A   
+C_T2 . . . . . . .  B ADDR   00C8H.1 A   
+DPH. . . . . . . .  D ADDR   0083H   A   
+DPL. . . . . . . .  D ADDR   0082H   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ECI. . . . . . . .  B ADDR   0090H.1 A   
+ES . . . . . . . .  B ADDR   00A8H.4 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+A51 MACRO ASSEMBLER  QTION2S                                                              12/21/2021 19:01:29 PAGE     7
+
+ET1. . . . . . . .  B ADDR   00A8H.3 A   
+ET2. . . . . . . .  B ADDR   00A8H.5 A   
+EVRCR. . . . . . .  D ADDR   0097H   A   
+EX0. . . . . . . .  B ADDR   00A8H.0 A   
+EX1. . . . . . . .  B ADDR   00A8H.2 A   
+EX2. . . . . . . .  B ADDR   00C0H.2 A   
+EX3. . . . . . . .  B ADDR   00C0H.6 A   
+EXEN2. . . . . . .  B ADDR   00C8H.3 A   
+EXF2 . . . . . . .  B ADDR   00C8H.6 A   
+F0 . . . . . . . .  B ADDR   00D0H.5 A   
+FE . . . . . . . .  B ADDR   0098H.7 A   
+IE . . . . . . . .  D ADDR   00A8H   A   
+IE0. . . . . . . .  B ADDR   0088H.1 A   
+IE1. . . . . . . .  B ADDR   0088H.3 A   
+IE2. . . . . . . .  B ADDR   00C0H.1 A   
+IE3. . . . . . . .  B ADDR   00C0H.5 A   
+IFADRH . . . . . .  D ADDR   00E3H   A   
+IFADRL . . . . . .  D ADDR   00E4H   A   
+IFD. . . . . . . .  D ADDR   00E2H   A   
+IFMT . . . . . . .  D ADDR   00E5H   A   
+INIT_SET . . . . .  C ADDR   0050H   A   
+INT0 . . . . . . .  B ADDR   00B0H.2 A   
+INT1 . . . . . . .  B ADDR   00B0H.3 A   
+INT2 . . . . . . .  B ADDR   00E8H.3 A   
+INT3 . . . . . . .  B ADDR   00E8H.2 A   
+IP . . . . . . . .  D ADDR   00B8H   A   
+IPH. . . . . . . .  D ADDR   00B7H   A   
+ISPCR. . . . . . .  D ADDR   00E7H   A   
+IT0. . . . . . . .  B ADDR   0088H.0 A   
+IT1. . . . . . . .  B ADDR   0088H.2 A   
+IT2. . . . . . . .  B ADDR   00C0H.0 A   
+IT3. . . . . . . .  B ADDR   00C0H.4 A   
+KBCON. . . . . . .  D ADDR   00D6H   A   
+KBMASK . . . . . .  D ADDR   00D7H   A   
+KBPATN . . . . . .  D ADDR   00D5H   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+OV . . . . . . . .  B ADDR   00D0H.2 A   
+P. . . . . . . . .  B ADDR   00D0H.0 A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P0M0 . . . . . . .  D ADDR   0093H   A   
+P0M1 . . . . . . .  D ADDR   0094H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P1M0 . . . . . . .  D ADDR   0091H   A   
+P1M1 . . . . . . .  D ADDR   0092H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P2M0 . . . . . . .  D ADDR   0095H   A   
+P2M1 . . . . . . .  D ADDR   0096H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+P3M0 . . . . . . .  D ADDR   00B1H   A   
+P3M1 . . . . . . .  D ADDR   00B2H   A   
+P4 . . . . . . . .  D ADDR   00E8H   A   
+P4M0 . . . . . . .  D ADDR   00B3H   A   
+P4M1 . . . . . . .  D ADDR   00B4H   A   
+PCAPWM0. . . . . .  D ADDR   00F2H   A   
+PCAPWM1. . . . . .  D ADDR   00F3H   A   
+PCAPWM2. . . . . .  D ADDR   00F4H   A   
+PCAPWM3. . . . . .  D ADDR   00F5H   A   
+PCAPWM4. . . . . .  D ADDR   00F6H   A   
+PCAPWM5. . . . . .  D ADDR   00F7H   A   
+PCON . . . . . . .  D ADDR   0087H   A   
+PCON2. . . . . . .  D ADDR   00C7H   A   
+PROCESS. . . . . .  C ADDR   006BH   A   
+PS . . . . . . . .  B ADDR   00B8H.4 A   
+PSW. . . . . . . .  D ADDR   00D0H   A   
+PT0. . . . . . . .  B ADDR   00B8H.1 A   
+PT1. . . . . . . .  B ADDR   00B8H.3 A   
+A51 MACRO ASSEMBLER  QTION2S                                                              12/21/2021 19:01:29 PAGE     8
+
+PT2. . . . . . . .  B ADDR   00B8H.5 A   
+PX0. . . . . . . .  B ADDR   00B8H.0 A   
+PX1. . . . . . . .  B ADDR   00B8H.2 A   
+PX2. . . . . . . .  B ADDR   00C0H.3 A   
+PX3. . . . . . . .  B ADDR   00C0H.7 A   
+RB8. . . . . . . .  B ADDR   0098H.2 A   
+RCAP2H . . . . . .  D ADDR   00CBH   A   
+RCAP2L . . . . . .  D ADDR   00CAH   A   
+RCLK . . . . . . .  B ADDR   00C8H.5 A   
+RD . . . . . . . .  B ADDR   00B0H.7 A   
+RECEIVE. . . . . .  C ADDR   0066H   A   
+REN. . . . . . . .  B ADDR   0098H.4 A   
+RI . . . . . . . .  B ADDR   0098H.0 A   
+RS0. . . . . . . .  B ADDR   00D0H.3 A   
+RS1. . . . . . . .  B ADDR   00D0H.4 A   
+RXD. . . . . . . .  B ADDR   00B0H.0 A   
+S2BRT. . . . . . .  D ADDR   00BAH   A   
+S2BUF. . . . . . .  D ADDR   009AH   A   
+S2CKO. . . . . . .  B ADDR   00B0H.5 A   
+S2CON. . . . . . .  D ADDR   00AAH   A   
+S2RXD. . . . . . .  B ADDR   0090H.2 A   
+S2TXD. . . . . . .  B ADDR   0090H.3 A   
+SADDR. . . . . . .  D ADDR   00A9H   A   
+SADEN. . . . . . .  D ADDR   00B9H   A   
+SBUF . . . . . . .  D ADDR   0099H   A   
+SCMD . . . . . . .  D ADDR   00E6H   A   
+SCON . . . . . . .  D ADDR   0098H   A   
+SEND . . . . . . .  C ADDR   0071H   A   
+SM0. . . . . . . .  B ADDR   0098H.7 A   
+SM1. . . . . . . .  B ADDR   0098H.6 A   
+SM2. . . . . . . .  B ADDR   0098H.5 A   
+SP . . . . . . . .  D ADDR   0081H   A   
+SPCTL. . . . . . .  D ADDR   0085H   A   
+SPDAT. . . . . . .  D ADDR   0086H   A   
+SPI_CLK. . . . . .  B ADDR   0090H.7 A   
+SPI_MISO . . . . .  B ADDR   0090H.6 A   
+SPI_MOSI . . . . .  B ADDR   0090H.5 A   
+SPI_SS . . . . . .  B ADDR   0090H.4 A   
+SPSTAT . . . . . .  D ADDR   0084H   A   
+STRETCH. . . . . .  D ADDR   008FH   A   
+T0 . . . . . . . .  B ADDR   00B0H.4 A   
+T0CKO. . . . . . .  B ADDR   00B0H.4 A   
+T1 . . . . . . . .  B ADDR   00B0H.5 A   
+T2 . . . . . . . .  B ADDR   0090H.0 A   
+T2CON. . . . . . .  D ADDR   00C8H   A   
+T2EX . . . . . . .  B ADDR   0090H.1 A   
+T2MOD. . . . . . .  D ADDR   00C9H   A   
+TB8. . . . . . . .  B ADDR   0098H.3 A   
+TCLK . . . . . . .  B ADDR   00C8H.4 A   
+TCON . . . . . . .  D ADDR   0088H   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TF1. . . . . . . .  B ADDR   0088H.7 A   
+TF2. . . . . . . .  B ADDR   00C8H.7 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TH2. . . . . . . .  D ADDR   00CDH   A   
+TI . . . . . . . .  B ADDR   0098H.1 A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TL2. . . . . . . .  D ADDR   00CCH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+TR2. . . . . . . .  B ADDR   00C8H.2 A   
+TXD. . . . . . . .  B ADDR   00B0H.1 A   
+WDTCR. . . . . . .  D ADDR   00E1H   A   
+A51 MACRO ASSEMBLER  QTION2S                                                              12/21/2021 19:01:29 PAGE     9
+
+WR . . . . . . . .  B ADDR   00B0H.6 A   
+XICON. . . . . . .  D ADDR   00C0H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

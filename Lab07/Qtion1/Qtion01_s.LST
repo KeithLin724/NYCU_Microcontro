@@ -1,0 +1,63 @@
+A51 MACRO ASSEMBLER  QTION01_S                                                            11/09/2021 16:56:31 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Qtion01_s.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Qtion01_s.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG     0000H
+0000 0150              2             AJMP    START
+0050                   3             ORG     0050H
+  00B4                 4     M       EQU     180                     
+  0064                 5     N       EQU     100                     
+0050                   6     START:
+0050 7800              7             MOV     R0,#0                   
+0052 7411              8             MOV     A,#00010001B    
+                       9     
+0054                  10     LOOP:                                   
+0054 F590             11             MOV     P1,A                    
+0056 03               12             RR              A                               
+0057 116A             13             ACALL   DELAY                   
+0059 08               14             INC             R0                              
+005A B8B5F7           15             CJNE    R0,#M+1,LOOP    
+005D 7800             16             MOV     R0,#0                   
+                      17     
+005F                  18     LOOP1:                                          
+005F F590             19             MOV     P1,A
+0061 23               20             RL              A                               
+0062 116A             21             ACALL   DELAY           
+0064 08               22             INC             R0                              
+0065 B865F7           23             CJNE    R0,#N+1,LOOP1   
+0068 0150             24             AJMP    START                   
+006A                  25     DELAY:                          
+006A 7E14             26             MOV     R6,#20
+006C                  27     DELAY1:
+006C 7FC8             28             MOV     R7,#200
+006E DFFE             29             DJNZ    R7,$                            
+0070 DEFA             30             DJNZ    R6,DELAY1
+0072 22               31             RET
+                      32         end 
+A51 MACRO ASSEMBLER  QTION01_S                                                            11/09/2021 16:56:31 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   006AH   A   
+DELAY1 . . . . . .  C ADDR   006CH   A   
+LOOP . . . . . . .  C ADDR   0054H   A   
+LOOP1. . . . . . .  C ADDR   005FH   A   
+M. . . . . . . . .  N NUMB   00B4H   A   
+N. . . . . . . . .  N NUMB   0064H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+START. . . . . . .  C ADDR   0050H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

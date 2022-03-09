@@ -1,0 +1,99 @@
+A51 MACRO ASSEMBLER  QTION3                                                               10/05/2021 20:50:11 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Qtion3.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Qtion3.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1         ORG 0000H
+0000 0150              2         AJMP MAIN
+0050                   3         ORG 0050H
+                       4     
+0050                   5     MAIN:
+0050 7807              6         MOV R0 , #07H  
+0052 A980              7         MOV R1 , P0  
+0054 7A00              8         MOV R2 , #00H  
+0056 E580              9         MOV A , P0 
+0058 F590             10         MOV P1 , A  
+005A                  11     LOOP:
+005A E9               12         MOV A , R1  
+005B 6580             13         XRL A , P0 ; comper 
+                      14     
+005D 7011             15         JNZ RO   ;; if 1 to RO 
+                      16         
+005F E590             17         MOV A , P1
+0061 23               18         RL A 
+0062                  19     TOLOOP: 
+0062 F590             20         MOV P1 , A  
+                      21     
+0064 18               22         DEC R0
+0065 E8               23         MOV A , R0
+0066 6004             24         JZ ADDINIT  
+0068                  25     TOLOOPS:
+                      26     
+0068 117D             27         ACALL DELAY ;; delay 
+006A 80EE             28         JMP LOOP ; loop 
+                      29     
+006C                  30     ADDINIT:
+006C 7807             31         MOV R0 , #07H 
+006E 80F8             32         JMP TOLOOPS ; 
+                      33     
+0070                  34     RO:  ;; do rL time 
+0070 E8               35         MOV A , R0 ;
+0071 FA               36         MOV R2 , A 
+0072 E580             37         MOV A , P0  
+                      38     
+0074 F9               39         MOV R1 , A   
+0075 E9               40         MOV A , R1 
+0076                  41     DOO:  
+0076 DA02             42         DJNZ R2  ,RROO 
+0078 80E8             43         JMP TOLOOP  
+                      44     
+007A                  45     RROO:  
+007A 23               46         RL A ;; shif 
+007B 80F9             47         JMP DOO
+                      48     
+007D                  49     DELAY:
+007D 7DFF             50         MOV R5,#0FFH;  
+007F                  51     DELAY1:
+007F 7EFF             52         MOV R6,#0FFH; 
+0081                  53     DELAY2:
+0081 7F05             54         MOV R7,#05H;  
+0083                  55     DELAY3:
+0083 DFFE             56         DJNZ R7,DELAY3 
+0085 DEFA             57         DJNZ R6,DELAY2 
+0087 DDF6             58         DJNZ R5,DELAY1 
+A51 MACRO ASSEMBLER  QTION3                                                               10/05/2021 20:50:11 PAGE     2
+
+0089 22               59         RET  
+                      60         END
+A51 MACRO ASSEMBLER  QTION3                                                               10/05/2021 20:50:11 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ADDINIT. . . . . .  C ADDR   006CH   A   
+DELAY. . . . . . .  C ADDR   007DH   A   
+DELAY1 . . . . . .  C ADDR   007FH   A   
+DELAY2 . . . . . .  C ADDR   0081H   A   
+DELAY3 . . . . . .  C ADDR   0083H   A   
+DOO. . . . . . . .  C ADDR   0076H   A   
+LOOP . . . . . . .  C ADDR   005AH   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+RO . . . . . . . .  C ADDR   0070H   A   
+RROO . . . . . . .  C ADDR   007AH   A   
+TOLOOP . . . . . .  C ADDR   0062H   A   
+TOLOOPS. . . . . .  C ADDR   0068H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

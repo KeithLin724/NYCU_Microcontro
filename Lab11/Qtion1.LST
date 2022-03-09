@@ -1,0 +1,300 @@
+A51 MACRO ASSEMBLER  QTION1                                                               12/14/2021 20:20:27 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Qtion1.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Qtion1.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1         org 0000H
+0000 0150              2         ajmp main 
+000B                   3         org 000BH 
+000B 01F7              4         ajmp timer0
+0050                   5         org 0050H
+                       6     
+  0080                 7         sound_out equ p0.0
+                       8     
+  REG                  9         k_row_run equ r2 
+  0041                10         k_chk_bit equ 41H 
+  0042                11         k_counter equ 42H 
+  0043                12         reg_1 equ 43H
+                      13     
+  0090                14         keyboard equ p1 
+  0044                15         Output_counter equ 44H 
+                      16     
+  REG                 17         counter_1 equ r4
+  0047                18         counter_2 equ 47H
+                      19     
+                      20     
+0050                  21     main:
+0050                  22     init_set:
+0050 C280             23         clr sound_out
+0052 758921           24         mov tmod , #00100001b  
+0055 758BE6           25         mov tl1  , #0E6H  
+0058 758DE6           26         mov th1  , #0E6H 
+                      27         
+                      28     
+                      29         
+                      30         
+                      31         
+                      32         
+                      33         
+                      34         
+005B D2A9             35         setb et0  
+005D C28D             36         clr tf0  
+005F D2AF             37         setb ea  
+                      38     
+                      39     
+0061 900119           40         mov dptr , #scale  
+0064 C28C             41         clr tr0  
+                      42     
+                      43         
+0066 754100           44         mov k_chk_bit , #0 
+0069 7A7F             45         mov k_row_run , #01111111b  
+006B 754200           46         mov k_counter , #0 
+006E                  47     Loop:
+006E                  48     Read:  
+006E 8A90             49         mov keyboard , k_row_run
+0070 11FF             50         acall Delay_keyboard
+                      51     
+0072 E590             52         mov a , keyboard 
+0074 C4               53         swap a  
+0075 54F0             54         anl a , #0F0H
+0077 F543             55         mov reg_1 , a  
+                      56     
+0079 E543             57         mov a , reg_1 
+007B 64E0             58         xrl a , #0E0H
+A51 MACRO ASSEMBLER  QTION1                                                               12/14/2021 20:20:27 PAGE     2
+
+007D 6021             59         jz first_col
+                      60     
+007F E543             61         mov a , reg_1 
+0081 64D0             62         xrl a , #0D0H 
+0083 6025             63         jz second_col
+                      64     
+0085 E543             65         mov a , reg_1 
+0087 64B0             66         xrl a , #0B0H 
+0089 602B             67         jz third_col
+                      68     
+008B E543             69         mov a , reg_1 
+008D 6470             70         xrl a , #070H 
+008F 6031             71         jz four_col
+                      72     
+                      73         
+0091 0542             74         inc k_counter  
+0093 EA               75         mov a, k_row_run
+0094 03               76         rr a 
+0095 FA               77         mov k_row_run , a 
+0096 BAF7D5           78         cjne k_row_run , #0F7H , Read 
+                      79     
+0099 7A7F             80         mov k_row_run , #01111111b  
+009B 754200           81         mov k_counter , #0   
+                      82     
+009E 80CE             83         jmp Read ;
+                      84     
+00A0                  85     first_col:  
+00A0 E542             86         mov a , k_counter 
+00A2 75F004           87         mov b , #4 
+00A5 A4               88         mul ab  
+00A6 F544             89         mov Output_counter ,a 
+                      90     
+00A8 8024             91         jmp process
+00AA                  92     second_col: 
+                      93     
+00AA E542             94         mov a , k_counter 
+00AC 75F004           95         mov b , #4 
+00AF A4               96         mul ab  
+00B0 2401             97         add a , #1 
+00B2 F544             98         mov Output_counter , a  
+                      99     
+00B4 8018            100         jmp process
+00B6                 101     third_col:  
+                     102     
+00B6 E542            103         mov a , k_counter  
+00B8 75F004          104         mov b , #4 
+00BB A4              105         mul ab  
+00BC 2402            106         add a , #2
+00BE F544            107         mov Output_counter , a
+                     108     
+00C0 800C            109         jmp process
+                     110     
+00C2                 111     four_col: 
+                     112     
+00C2 E542            113         mov a , k_counter 
+00C4 75F004          114         mov b , #4 
+00C7 A4              115         mul ab  
+00C8 2403            116         add a , #3
+00CA F544            117         mov Output_counter , a
+                     118     
+00CC 8000            119         jmp process
+                     120     
+                     121     
+                     122     
+                     123     
+                     124     
+A51 MACRO ASSEMBLER  QTION1                                                               12/14/2021 20:20:27 PAGE     3
+
+                     125     
+00CE                 126     process:  
+                     127         
+                     128         
+                     129         
+                     130     
+                     131         
+00CE E544            132         mov a , Output_counter 
+00D0 75F003          133         mov b , #3
+00D3 A4              134         mul ab 
+                     135     
+00D4 F5F0            136         mov b , a 
+00D6 93              137         movc a , @a+dptr 
+00D7 F8              138         mov r0 , a  
+00D8 E5F0            139         mov a , b 
+00DA 04              140         inc a 
+00DB 93              141         movc a , @a+dptr 
+00DC F9              142         mov r1 , a
+                     143     
+00DD 04              144         inc a 
+00DE FB              145         mov r3 , a 
+                     146     
+                     147         
+00DF 888C            148         mov th0 , r0 
+00E1 898A            149         mov tl0 , r1
+                     150         
+00E3 7C04            151         mov counter_1 , #4
+00E5 F547            152         mov counter_2 , a
+                     153     
+                     154         
+00E7                 155     for_2:
+00E7 7C04            156         mov counter_1 , #4
+00E9                 157     for_1:
+00E9 D28C            158         setb tr0  
+00EB BC00FB          159         cjne counter_1 , #0 , for_1
+00EE 7C04            160         mov counter_1 , #4 
+00F0 D547F6          161         djnz counter_2 , for_1 
+                     162     
+                     163         
+                     164         
+                     165     
+                     166         
+                     167         
+                     168         
+                     169         
+00F3 C28C            170         clr tr0  
+                     171     
+00F5 016E            172         ajmp Read 
+                     173     
+                     174     
+                     175     
+                     176         
+00F7                 177     timer0:
+00F7 888C            178         mov th0, r0 
+00F9 898A            179         mov tl0, r1
+00FB B280            180         cpl sound_out 
+00FD 1C              181         dec counter_1 
+00FE 32              182         reti 
+                     183     
+00FF                 184     Delay_keyboard:
+00FF 7D0A            185             mov r5,#00AH
+0101                 186     Del1:
+0101 7E0A            187             mov r6,#00AH
+0103                 188     Del2:
+0103 7F01            189             mov r7,#1H
+0105                 190     Del3:
+A51 MACRO ASSEMBLER  QTION1                                                               12/14/2021 20:20:27 PAGE     4
+
+0105 DFFE            191             djnz r7,Del3
+0107 DEFA            192             djnz r6,Del2
+0109 DDF6            193             djnz r5,Del1
+010B 22              194             ret
+                     195     
+010C                 196     delay1s:  
+010C 7D0F            197             mov r5,#00FH
+010E                 198     delay1:
+010E 7EFA            199             mov r6,#0FAH
+0110                 200     delay2:
+0110 7FFF            201         mov r7,#0FFH 
+0112                 202     delay3:
+0112 DFFE            203         djnz r7,delay3
+0114 DEFA            204             djnz r6,delay2
+0116 DDF6            205             djnz r5,delay1
+0118 22              206             ret
+                     207     
+0119                 208     scale:
+0119 FC4583          209         db  252,69,131
+011C FC7C8B          210         db  252,124,139
+011F FCAD93          211         db  252,173,147
+0122 FCDE9C          212         db  252,222,156
+0125 FD0AA5          213         db  253,10,165
+0128 FD35AF          214         db  253,53,175
+012B FD5CB9          215         db  253,92,185
+012E FD82C4          216         db  253,130,196
+0131 FDA7D0          217         db  253,167,208
+0134 FDC7DC          218         db  253,199,220
+0137 FDE7E9          219         db  253,231,233
+013A FE05F7          220         db  254,5,247
+                     221             
+                     222             
+                     223             
+                     224             
+                     225             
+                     226             
+                     227             
+                     228         
+                     229     end 
+A51 MACRO ASSEMBLER  QTION1                                                               12/14/2021 20:20:27 PAGE     5
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+B. . . . . . . . .  D ADDR   00F0H   A   
+COUNTER_1. . . . .    REG    R4          
+COUNTER_2. . . . .  N NUMB   0047H   A   
+DEL1 . . . . . . .  C ADDR   0101H   A   
+DEL2 . . . . . . .  C ADDR   0103H   A   
+DEL3 . . . . . . .  C ADDR   0105H   A   
+DELAY1 . . . . . .  C ADDR   010EH   A   
+DELAY1S. . . . . .  C ADDR   010CH   A   
+DELAY2 . . . . . .  C ADDR   0110H   A   
+DELAY3 . . . . . .  C ADDR   0112H   A   
+DELAY_KEYBOARD . .  C ADDR   00FFH   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+FIRST_COL. . . . .  C ADDR   00A0H   A   
+FOR_1. . . . . . .  C ADDR   00E9H   A   
+FOR_2. . . . . . .  C ADDR   00E7H   A   
+FOUR_COL . . . . .  C ADDR   00C2H   A   
+INIT_SET . . . . .  C ADDR   0050H   A   
+KEYBOARD . . . . .  D ADDR   0090H   A   
+K_CHK_BIT. . . . .  N NUMB   0041H   A   
+K_COUNTER. . . . .  N NUMB   0042H   A   
+K_ROW_RUN. . . . .    REG    R2          
+LOOP . . . . . . .  C ADDR   006EH   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+OUTPUT_COUNTER . .  N NUMB   0044H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+PROCESS. . . . . .  C ADDR   00CEH   A   
+READ . . . . . . .  C ADDR   006EH   A   
+REG_1. . . . . . .  N NUMB   0043H   A   
+SCALE. . . . . . .  C ADDR   0119H   A   
+SECOND_COL . . . .  C ADDR   00AAH   A   
+SOUND_OUT. . . . .  B ADDR   0080H.0 A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+THIRD_COL. . . . .  C ADDR   00B6H   A   
+TIMER0 . . . . . .  C ADDR   00F7H   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

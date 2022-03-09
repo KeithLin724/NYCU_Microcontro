@@ -1,0 +1,62 @@
+C51 COMPILER V8.16   QTION                                                                 12/28/2021 19:18:56 PAGE 1   
+
+
+C51 COMPILER V8.16, COMPILATION OF MODULE QTION
+OBJECT MODULE PLACED IN Qtion.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE Qtion.c OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND
+
+line level    source
+
+   1          #include <REG_MPC82G516.H>
+   2          //#include <reg51.h>
+   3          #define Byte unsigned char
+   4          Byte get = 1;
+   5          void main() {
+   6   1          T2CON = 0x30; //00110000b 
+   7   1          RCAP2H = 0xff;
+   8   1          RCAP2L = 0xd9;
+   9   1      
+  10   1          PCON = 0x80;
+  11   1          TR2 = 1;
+  12   1          SM2 = 0;
+  13   1          SM1 = 1;
+  14   1          SM0 = 0;
+  15   1          REN = 1;
+  16   1          SP = 0x20;
+  17   1      
+  18   1      
+  19   1          while (1) {
+  20   2              //send 
+  21   2              RI = 0;
+  22   2              while (!RI) {
+  23   3      
+  24   3              }
+  25   2              //process 
+  26   2              get = SBUF;
+  27   2              get += 32;
+  28   2              TI = 0;
+  29   2      
+  30   2              // send
+  31   2              SBUF = get;
+  32   2              while (!TI) {
+  33   3      
+  34   3              }
+  35   2      
+  36   2      
+  37   2          }
+  38   1      
+  39   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     52    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

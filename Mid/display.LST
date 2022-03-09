@@ -1,0 +1,414 @@
+A51 MACRO ASSEMBLER  DISPLAY                                                              11/23/2021 20:48:53 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN display.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE display.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1         org 0000H
+0000 0150              2         ajmp main
+0050                   3         org 0050H
+                       4     
+  00B0                 5     LCD_set equ p3 
+  00A0                 6     LCD_data_bus equ p2 
+  0080                 7     LCD_Light_with_counter equ p0
+  REG                  8     counter equ r0
+  REG                  9     display_pos equ r1 
+  0090                10     keyboard equ p1 
+  REG                 11     scanner equ r2 
+  REG                 12     get_check_bit equ r3 
+  REG                 13     save equ r4 
+                      14     
+0050                  15     main:
+0050 7A7F             16         mov scanner , #01111111b  
+0052 758000           17         mov LCD_Light_with_counter , #0  
+                      18     
+0055                  19     init_LCD:
+0055 31AC             20         acall Delay_cmd 
+0057 31AC             21         acall Delay_cmd  
+                      22     
+0059 743B             23         mov a , #00111011b  
+005B 318E             24         acall set_up_cmd 
+                      25     
+005D 740C             26         mov a , #00001100b  
+005F 318E             27         acall set_up_cmd
+                      28     
+0061 7401             29         mov a , #1 
+0063 318E             30         acall set_up_cmd 
+                      31     
+0065 31AC             32         acall Delay_cmd 
+0067 31AC             33         acall Delay_cmd  
+                      34     
+0069                  35     CG_upload_data:
+0069 7440             36         mov a , #01000000b  
+006B 318E             37         acall set_up_cmd 
+006D 9001E6           38         mov dptr , #table_carton 
+0070                  39     Up_load_Loop:  
+0070 E4               40         clr a 
+0071 93               41         movc a , @a+dptr 
+0072 6005             42         jz mode_string_dptr 
+0074 319D             43         acall upload_data 
+0076 A3               44         inc dptr 
+                      45     
+0077 80F7             46         jmp Up_load_Loop  
+                      47     
+0079                  48     mode_string_dptr:
+                      49         
+0079 9001D3           50         mov dptr , #mode_set_string
+007C 7480             51         mov a , #10000000b  
+007E 318E             52         acall set_up_cmd
+0080                  53     mode_string_show:
+0080 E4               54         clr a 
+0081 93               55         movc a , @a+dptr 
+0082 600B             56         jz Read  
+0084 319D             57         acall upload_data 
+0086 A3               58         inc dptr 
+A51 MACRO ASSEMBLER  DISPLAY                                                              11/23/2021 20:48:53 PAGE     2
+
+0087 80F7             59         jmp mode_string_show 
+                      60     
+0089                  61     Read_init:
+0089 E580             62         mov a , LCD_Light_with_counter 
+008B 548F             63         anl a , #10001111b 
+008D F580             64         mov LCD_Light_with_counter , a
+008F                  65     Read:
+008F 8A90             66         mov keyboard , scanner 
+0091 1201C6           67         lcall Delay_keyboard 
+                      68         
+0094 E590             69         mov a , keyboard 
+0096 C4               70         swap a 
+0097 54F0             71         anl a , #11110000b
+0099 FB               72         mov get_check_bit , a 
+                      73     
+009A EB               74         mov a , get_check_bit 
+009B 64E0             75         xrl a , #0E0H
+009D 601F             76         jz first_col
+009F EB               77         mov a , get_check_bit 
+00A0 64D0             78         xrl a , #0D0H 
+00A2 6025             79         jz second_col
+00A4 EB               80         mov a , get_check_bit 
+00A5 64B0             81         xrl a , #0B0H 
+00A7 6031             82         jz third_col
+00A9 EB               83         mov a , get_check_bit 
+00AA 6470             84         xrl a , #070H 
+00AC 603D             85         jz four_col
+00AE 0580             86         inc LCD_Light_with_counter
+00B0 EA               87         mov a , scanner 
+00B1 03               88         rr a 
+00B2 FA               89         mov scanner , a 
+00B3 B9F7D9           90         cjne r1 , #0F7H , Read
+00B6 E580             91         mov a , LCD_Light_with_counter
+00B8 5480             92         anl a , #10000000b
+00BA F580             93         mov LCD_Light_with_counter , a 
+                      94     
+00BC 80CB             95         jmp Read_init
+                      96     
+                      97     
+00BE                  98     first_col:  
+00BE E580             99         mov a , LCD_Light_with_counter 
+00C0 548F            100         anl a , #10001111b
+00C2 75F004          101         mov b , #4 
+00C5 A4              102         mul ab  
+00C6 FC              103         mov save , a 
+00C7 80C0            104         jmp Read_init  
+00C9                 105     second_col:  
+00C9 E580            106         mov a , LCD_Light_with_counter 
+00CB 548F            107         anl a , #10001111b
+00CD 75F004          108         mov b , #4 
+00D0 A4              109         mul ab  
+00D1 2402            110         add a , #2
+00D3 FC              111         mov save , a  
+00D4 640E            112         xrl a , #14
+00D6 6043            113         jz m2 
+                     114     
+00D8 80AF            115         jmp Read_init
+00DA                 116     third_col:  
+00DA E580            117         mov a , LCD_Light_with_counter  
+00DC 548F            118         anl a , #10001111b
+00DE 75F004          119         mov b , #4 
+00E1 A4              120         mul ab  
+00E2 2403            121         add a , #3
+00E4 FC              122         mov save , a
+                     123     
+00E5 640F            124         xrl a , #15
+A51 MACRO ASSEMBLER  DISPLAY                                                              11/23/2021 20:48:53 PAGE     3
+
+00E7 604F            125         jz m3
+                     126     
+00E9 809E            127         jmp Read_init
+00EB                 128     four_col:  
+00EB E580            129         mov a , LCD_Light_with_counter 
+00ED 548F            130         anl a , #10001111b
+00EF 75F004          131         mov b , #4 
+00F2 A4              132         mul ab  
+00F3 2404            133         add a , #4
+                     134     
+00F5 FC              135         mov save , a  
+00F6 6410            136         xrl a , #16
+00F8 600A            137         jz light_on
+                     138     
+00FA EC              139         mov a , save 
+00FB 640C            140         xrl a , #12 
+00FD 6002            141         jz re 
+                     142     
+00FF 808E            143         jmp Read
+0101                 144     re:
+0101 020089          145         ljmp Read_init 
+                     146     
+0104                 147     light_on:
+0104 B287            148         cpl LCD_Light_with_counter.7 
+0106 740F            149         mov a , #00001111b  
+0108 318E            150         acall set_up_cmd
+010A                 151     spice_loop:
+010A 9001E0          152         mov dptr , #Sppp
+010D 7480            153         mov a , #10000000b  
+010F 318E            154         acall set_up_cmd 
+0111                 155     spice_loop2:
+0111 E4              156         clr a 
+0112 93              157         movc a , @a+dptr 
+0113 319D            158         acall upload_data 
+0115 A3              159         inc dptr 
+0116 80F9            160         jmp spice_loop2
+                     161         
+0118 02008F          162         ljmp Read
+011B                 163     m2:
+011B 7401            164         mov a , #1 
+011D 318E            165         acall set_up_cmd 
+                     166     
+011F 31AC            167         acall Delay_cmd 
+0121 31AC            168         acall Delay_cmd  
+0123 7440            169         mov a , #01000000b  
+0125 318E            170         acall set_up_cmd 
+0127                 171     show_loop_init_m2:
+0127 7800            172         mov counter , #0  
+0129                 173     show_loop_m2:
+0129 7480            174         mov a , #10000000b 
+012B 318E            175         acall set_up_cmd 
+                     176     
+012D E8              177         mov a , counter  
+012E 319D            178         acall upload_data 
+0130 31B9            179         acall delay
+                     180     
+0132 08              181         inc counter 
+0133 B802F3          182         cjne counter , #2 , show_loop_m2 
+0136 80EF            183         jmp show_loop_init_m2
+                     184     
+0138                 185     m3:
+0138 7401            186         mov a , #1 
+013A 318E            187         acall set_up_cmd 
+                     188     
+013C 31AC            189         acall Delay_cmd 
+013E 31AC            190         acall Delay_cmd  
+A51 MACRO ASSEMBLER  DISPLAY                                                              11/23/2021 20:48:53 PAGE     4
+
+0140 7440            191         mov a , #01000000b  
+0142 318E            192         acall set_up_cmd 
+                     193     
+0144                 194     show_loop_init_display:
+0144 7980            195         mov display_pos , #0080H
+0146 7800            196         mov counter , #0000H  
+0148                 197     show_loop:
+0148 E9              198         mov a , display_pos  
+0149 318E            199         acall set_up_cmd 
+                     200     
+014B E8              201         mov a , counter  
+014C 319D            202         acall upload_data 
+014E 31B9            203         acall delay
+                     204     
+0150 08              205         inc counter 
+0151 B802F4          206         cjne counter , #0002H , show_loop 
+0154 7800            207         mov counter , #0000H  
+0156 09              208         inc display_pos
+                     209     
+0157 7401            210         mov a , #1 
+0159 318E            211         acall set_up_cmd
+015B 31AC            212         acall Delay_cmd 
+015D 31AC            213         acall Delay_cmd  
+                     214     
+015F B990E6          215         cjne display_pos , #090H , show_loop 
+0162                 216     m3_2:
+0162 7401            217         mov a , #1 
+0164 318E            218         acall set_up_cmd 
+                     219     
+0166 31AC            220         acall Delay_cmd 
+0168 31AC            221         acall Delay_cmd  
+016A 7440            222         mov a , #01000000b  
+016C 318E            223         acall set_up_cmd 
+                     224     
+016E 79CF            225         mov display_pos , #00CFH 
+0170 7800            226         mov counter , #0000H 
+0172                 227     show_loop_down:
+0172 E9              228         mov a , display_pos  
+0173 318E            229         acall set_up_cmd 
+                     230     
+0175 E8              231         mov a , counter  
+0176 319D            232         acall upload_data 
+0178 31B9            233         acall delay
+                     234     
+017A 08              235         inc counter 
+017B B802F4          236         cjne counter , #0002H , show_loop_down 
+017E 7800            237         mov counter , #0000H  
+0180 19              238         dec display_pos
+                     239     
+0181 7401            240         mov a , #1 
+0183 318E            241         acall set_up_cmd
+0185 31AC            242         acall Delay_cmd 
+0187 31AC            243         acall Delay_cmd  
+                     244     
+0189 B9BFE6          245         cjne display_pos , #0BFH , show_loop_down 
+                     246     
+018C 80B6            247         jmp show_loop_init_display
+                     248     
+018E                 249     set_up_cmd:  
+018E F5A0            250         mov LCD_data_bus , a 
+0190 31AC            251         acall Delay_cmd 
+                     252     
+0192 75B004          253         mov LCD_set , #00000100b 
+0195 31AC            254         acall Delay_cmd 
+                     255     
+0197 75B000          256         mov LCD_set , #00000000b 
+A51 MACRO ASSEMBLER  DISPLAY                                                              11/23/2021 20:48:53 PAGE     5
+
+019A 31AC            257         acall Delay_cmd 
+019C 22              258         ret 
+                     259     
+019D                 260     upload_data:
+019D F5A0            261         mov LCD_data_bus , a 
+019F 31AC            262         acall Delay_cmd 
+                     263         
+01A1 75B005          264         mov LCD_set , #00000101b
+01A4 31AC            265         acall Delay_cmd 
+                     266     
+01A6 75B001          267         mov LCD_set , #00000001b 
+01A9 31AC            268         acall Delay_cmd 
+01AB 22              269         ret
+                     270     
+01AC                 271     Delay_cmd:
+01AC 7D10            272             mov r5,#0010H
+01AE                 273     Del1:
+01AE 7EF0            274             mov r6,#0F0H
+01B0                 275     Del2:
+01B0 7F0A            276             mov r7,#10
+01B2                 277     Del3:
+01B2 DFFE            278             djnz r7,Del3
+01B4 DEFA            279             djnz r6,Del2
+01B6 DDF6            280             djnz r5,Del1
+01B8 22              281             ret
+                     282     
+01B9                 283     delay:
+01B9 7DFF            284             mov r5,#0FFH
+01BB                 285     delay1:
+01BB 7EFF            286             mov r6,#0FFH
+01BD                 287     delay2:
+01BD 7F0F            288             mov r7,#00FH
+01BF                 289     delay3:
+01BF DFFE            290             djnz r7,delay3
+01C1 DEFA            291             djnz r6,delay2
+01C3 DDF6            292             djnz r5,delay1
+01C5 22              293             ret
+                     294     
+01C6                 295     Delay_keyboard:
+01C6 7D0A            296         mov r5,#00AH
+01C8                 297     Del_k1:
+01C8 7E0A            298             mov r6,#00AH
+01CA                 299     Del_k2:
+01CA 7F01            300             mov r7,#1H
+01CC                 301     Del_k3:
+01CC DFFE            302             djnz r7,Del_k3
+01CE DEFA            303             djnz r6,Del_k2
+01D0 DDF6            304             djnz r5,Del_k1
+01D2 22              305             ret
+                     306     
+01D3                 307     mode_set_string:  
+01D3 4D6F6465        308         db "Mode Setting" , 0 
+01D7 20536574                
+01DB 74696E67                
+01DF 00                      
+01E0                 309     Sppp:
+01E0 20202020        310         db "     " , 0 
+01E4 2000                    
+                     311     
+                     312     
+01E6                 313     table_carton:
+01E6 0A80801F        314         db 00AH , 080H , 080H , 01FH , 01FH , 080H , 080H , 080H  
+01EA 1F808080                
+01EE 0A801F11        315         db 00AH , 080H , 01FH , 011H , 011H , 01FH , 080H , 080H
+01F2 111F8080                
+01F6 00              316         db 0  
+A51 MACRO ASSEMBLER  DISPLAY                                                              11/23/2021 20:48:53 PAGE     6
+
+                     317     
+                     318         end 
+A51 MACRO ASSEMBLER  DISPLAY                                                              11/23/2021 20:48:53 PAGE     7
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E                 T Y P E  V A L U E   ATTRIBUTES
+
+B. . . . . . . . . . .  D ADDR   00F0H   A   
+CG_UPLOAD_DATA . . . .  C ADDR   0069H   A   
+COUNTER. . . . . . . .    REG    R0          
+DEL1 . . . . . . . . .  C ADDR   01AEH   A   
+DEL2 . . . . . . . . .  C ADDR   01B0H   A   
+DEL3 . . . . . . . . .  C ADDR   01B2H   A   
+DELAY. . . . . . . . .  C ADDR   01B9H   A   
+DELAY1 . . . . . . . .  C ADDR   01BBH   A   
+DELAY2 . . . . . . . .  C ADDR   01BDH   A   
+DELAY3 . . . . . . . .  C ADDR   01BFH   A   
+DELAY_CMD. . . . . . .  C ADDR   01ACH   A   
+DELAY_KEYBOARD . . . .  C ADDR   01C6H   A   
+DEL_K1 . . . . . . . .  C ADDR   01C8H   A   
+DEL_K2 . . . . . . . .  C ADDR   01CAH   A   
+DEL_K3 . . . . . . . .  C ADDR   01CCH   A   
+DISPLAY_POS. . . . . .    REG    R1          
+FIRST_COL. . . . . . .  C ADDR   00BEH   A   
+FOUR_COL . . . . . . .  C ADDR   00EBH   A   
+GET_CHECK_BIT. . . . .    REG    R3          
+INIT_LCD . . . . . . .  C ADDR   0055H   A   
+KEYBOARD . . . . . . .  D ADDR   0090H   A   
+LCD_DATA_BUS . . . . .  D ADDR   00A0H   A   
+LCD_LIGHT_WITH_COUNTER  D ADDR   0080H   A   
+LCD_SET. . . . . . . .  D ADDR   00B0H   A   
+LIGHT_ON . . . . . . .  C ADDR   0104H   A   
+M2 . . . . . . . . . .  C ADDR   011BH   A   
+M3 . . . . . . . . . .  C ADDR   0138H   A   
+M3_2 . . . . . . . . .  C ADDR   0162H   A   
+MAIN . . . . . . . . .  C ADDR   0050H   A   
+MODE_SET_STRING. . . .  C ADDR   01D3H   A   
+MODE_STRING_DPTR . . .  C ADDR   0079H   A   
+MODE_STRING_SHOW . . .  C ADDR   0080H   A   
+P0 . . . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . . . .  D ADDR   00B0H   A   
+RE . . . . . . . . . .  C ADDR   0101H   A   
+READ . . . . . . . . .  C ADDR   008FH   A   
+READ_INIT. . . . . . .  C ADDR   0089H   A   
+SAVE . . . . . . . . .    REG    R4          
+SCANNER. . . . . . . .    REG    R2          
+SECOND_COL . . . . . .  C ADDR   00C9H   A   
+SET_UP_CMD . . . . . .  C ADDR   018EH   A   
+SHOW_LOOP. . . . . . .  C ADDR   0148H   A   
+SHOW_LOOP_DOWN . . . .  C ADDR   0172H   A   
+SHOW_LOOP_INIT_DISPLAY  C ADDR   0144H   A   
+SHOW_LOOP_INIT_M2. . .  C ADDR   0127H   A   
+SHOW_LOOP_M2 . . . . .  C ADDR   0129H   A   
+SPICE_LOOP . . . . . .  C ADDR   010AH   A   
+SPICE_LOOP2. . . . . .  C ADDR   0111H   A   
+SPPP . . . . . . . . .  C ADDR   01E0H   A   
+TABLE_CARTON . . . . .  C ADDR   01E6H   A   
+THIRD_COL. . . . . . .  C ADDR   00DAH   A   
+UPLOAD_DATA. . . . . .  C ADDR   019DH   A   
+UP_LOAD_LOOP . . . . .  C ADDR   0070H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
+A51 MACRO ASSEMBLER  DISPLAY                                                              11/23/2021 20:48:53 PAGE     8
+

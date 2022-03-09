@@ -1,0 +1,154 @@
+A51 MACRO ASSEMBLER  QTION1                                                               12/07/2021 16:55:18 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Qtion1.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Qtion1.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1         org 0000H
+0000 0150              2         ajmp init_set
+000B                   3         org 000BH
+000B 018C              4         ajmp timerR0
+0013                   5         org 0013H
+0013 0191              6         ajmp int1_trigger 
+0050                   7         org 0050H
+                       8     
+  REG                  9     ss_dis_loca_ptr equ r0 
+  REG                 10     save_ss_dis_loca equ r1 
+  0080                11     ss_display equ p0 
+  00A0                12     ss_display_out_loca equ p2 
+                      13     
+0050                  14     init_set:
+0050 D2A9             15         setb et0  
+0052 D28A             16         setb it1  
+0054 D2AA             17         setb ex1  
+0056 D2BA             18         setb px1   
+0058 D2AF             19         setb ea  
+                      20     
+005A 7589E2           21         mov TMOD , #11100010b  
+005D 758CE3           22         mov th0,#227  
+0060 758AE3           23         mov tl0,#227  
+                      24     
+0063 758D00           25         mov th1,#0  
+0066 758B00           26         mov tl1,#0  
+                      27     
+0069 D28C             28         setb tr0  
+006B D28E             29         setb tr1   
+006D C28D             30         clr tf0  
+006F C28B             31         clr ie1  
+0071 9000BC           32         mov dptr,#num_table   
+                      33     
+0074                  34     start_show:
+0074 7840             35         mov ss_dis_loca_ptr , #40H  
+0076 79FE             36         mov save_ss_dis_loca , #11111110b
+                      37     
+0078                  38     show:
+0078 E6               39         mov a , @ss_dis_loca_ptr
+0079 93               40         movc a , @a+dptr 
+007A F580             41         mov ss_display , a 
+                      42     
+007C 08               43         inc ss_dis_loca_ptr
+007D 89A0             44         mov ss_display_out_loca , save_ss_dis_loca
+                      45     
+007F 11B3             46         acall delay 
+0081 75A0FF           47         mov ss_display_out_loca , #0FFH
+                      48     
+0084 E9               49         mov a , save_ss_dis_loca  
+0085 23               50         rl  a 
+0086 F9               51         mov save_ss_dis_loca , a 
+                      52     
+0087 B9F7EE           53         cjne save_ss_dis_loca,#11110111b , show  
+008A 0174             54         ajmp start_show 
+                      55     
+008C                  56     timerR0:
+008C C28D             57         clr tf0  
+008E B290             58         cpl p1.0  
+A51 MACRO ASSEMBLER  QTION1                                                               12/07/2021 16:55:18 PAGE     2
+
+0090 32               59         reti 
+                      60     
+0091                  61     int1_trigger:
+0091 C28E             62         clr tr1  
+0093 C28C             63         clr tr0  
+                      64     
+0095 E58B             65         mov a , tl1  
+0097 75F064           66         mov b , #100  
+009A 84               67         div ab 
+009B F542             68         mov 42H,a
+                      69     
+009D E5F0             70         mov a ,b 
+009F 75F00A           71         mov b , #10
+00A2 84               72         div ab 
+00A3 F541             73         mov 41H,  a  
+00A5 85F040           74         mov 40H , b  
+                      75     
+00A8 758B00           76         mov tl1 , #0  
+00AB 758D00           77         mov th1 , #0 
+                      78     
+00AE D28C             79         setb tr0 
+00B0 D28E             80         setb tr1 
+00B2 32               81         reti 
+                      82     
+00B3                  83     delay:  
+00B3 7D14             84             mov r5,#20
+00B5                  85     delay1:
+00B5 7E19             86             mov r6,#25
+00B7                  87     delay2:
+00B7 DEFE             88             djnz r6,delay2
+00B9 DDFA             89             djnz r5,delay1
+00BB 22               90             ret
+                      91     
+                      92     
+00BC                  93     num_table:
+00BC C0F9A4B0         94         db  0C0H, 0F9H,     0A4H, 0B0H,     099H  
+00C0 99                      
+00C1 9282F880         95             db      092H, 082H,     0F8H, 080H,     090H  
+00C5 90                      
+                      96         end 
+A51 MACRO ASSEMBLER  QTION1                                                               12/07/2021 16:55:18 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E              T Y P E  V A L U E   ATTRIBUTES
+
+B . . . . . . . . .  D ADDR   00F0H   A   
+DELAY . . . . . . .  C ADDR   00B3H   A   
+DELAY1. . . . . . .  C ADDR   00B5H   A   
+DELAY2. . . . . . .  C ADDR   00B7H   A   
+EA. . . . . . . . .  B ADDR   00A8H.7 A   
+ET0 . . . . . . . .  B ADDR   00A8H.1 A   
+EX1 . . . . . . . .  B ADDR   00A8H.2 A   
+IE1 . . . . . . . .  B ADDR   0088H.3 A   
+INIT_SET. . . . . .  C ADDR   0050H   A   
+INT1_TRIGGER. . . .  C ADDR   0091H   A   
+IT1 . . . . . . . .  B ADDR   0088H.2 A   
+NUM_TABLE . . . . .  C ADDR   00BCH   A   
+P0. . . . . . . . .  D ADDR   0080H   A   
+P1. . . . . . . . .  D ADDR   0090H   A   
+P2. . . . . . . . .  D ADDR   00A0H   A   
+PX1 . . . . . . . .  B ADDR   00B8H.2 A   
+SAVE_SS_DIS_LOCA. .    REG    R1          
+SHOW. . . . . . . .  C ADDR   0078H   A   
+SS_DISPLAY. . . . .  D ADDR   0080H   A   
+SS_DISPLAY_OUT_LOCA  D ADDR   00A0H   A   
+SS_DIS_LOCA_PTR . .    REG    R0          
+START_SHOW. . . . .  C ADDR   0074H   A   
+TF0 . . . . . . . .  B ADDR   0088H.5 A   
+TH0 . . . . . . . .  D ADDR   008CH   A   
+TH1 . . . . . . . .  D ADDR   008DH   A   
+TIMERR0 . . . . . .  C ADDR   008CH   A   
+TL0 . . . . . . . .  D ADDR   008AH   A   
+TL1 . . . . . . . .  D ADDR   008BH   A   
+TMOD. . . . . . . .  D ADDR   0089H   A   
+TR0 . . . . . . . .  B ADDR   0088H.4 A   
+TR1 . . . . . . . .  B ADDR   0088H.6 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

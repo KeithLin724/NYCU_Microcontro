@@ -1,0 +1,73 @@
+A51 MACRO ASSEMBLER  QTION2                                                               10/26/2021 17:06:27 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Qtion2.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Qtion2.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1         org 0000H 
+0000 0150              2         ajmp main  
+0050                   3         org 0050H 
+0050                   4     main:
+0050 7880              5         mov r0 , #10000000b  
+0052 7980              6         mov r1 , #10000000b  
+0054 7A00              7         mov r2 , #0  
+                       8     
+0056                   9     loop:
+0056 E8               10         mov a , r0
+0057 F590             11         mov p1 , a  
+0059 03               12         rr a
+005A F8               13         mov r0 , a 
+                      14     
+005B E9               15         mov a , r1 
+005C F580             16         mov p0 , a 
+                      17         
+005E 0A               18         inc r2 
+005F 116B             19         acall delay
+                      20     
+0061 B804F2           21         cjne r0 , #00000100b , loop
+0064 7880             22         mov r0 , #10000000b
+                      23     
+0066 E9               24         mov a , r1 
+0067 03               25         rr a 
+0068 F9               26         mov r1 , a
+                      27     
+0069 0156             28         ajmp loop 
+                      29     
+006B                  30     delay:
+006B 7DFF             31             mov r5,#0FFH
+006D                  32     delay1:
+006D 7EFF             33             mov r6,#0FFH
+006F                  34     delay2:
+006F 7F0F             35             mov r7,#00FH
+0071                  36     delay3:
+0071 DFFE             37             djnz r7,delay3
+0073 DEFA             38             djnz r6,delay2
+0075 DDF6             39             djnz r5,delay1
+0077 22               40             ret
+                      41     
+                      42         end 
+A51 MACRO ASSEMBLER  QTION2                                                               10/26/2021 17:06:27 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   006BH   A   
+DELAY1 . . . . . .  C ADDR   006DH   A   
+DELAY2 . . . . . .  C ADDR   006FH   A   
+DELAY3 . . . . . .  C ADDR   0071H   A   
+LOOP . . . . . . .  C ADDR   0056H   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

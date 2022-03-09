@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "REG_MPC82G516.H": "cpp",
+        "INTRINS.H": "cpp",
+        "STRING.H": "cpp",
+        "malloc.h": "c",
+        "STDLIB.H": "cpp",
+        "STDIO.H": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "Enabled",
+    "cSpell.words": [
+        "sbit"
+    ]
+}

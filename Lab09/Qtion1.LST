@@ -1,0 +1,130 @@
+A51 MACRO ASSEMBLER  QTION1                                                               11/30/2021 19:25:12 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Qtion1.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Qtion1.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1         org 0000H
+0000 0150              2         ajmp init_setup
+0003                   3         org 0003H
+0003 020062            4         ljmp exip 
+0050                   5         org 0050H
+                       6     
+  00C0                 7         p4 equ 0C0H
+  REG                  8         table_index equ r0 
+  REG                  9         col_num equ r1 
+                      10     
+0050                  11     init_setup:  
+0050 D288             12         setb it0  
+0052 D2A8             13         setb ex0  
+0054 C289             14         clr ie0  
+0056 D2B8             15         setb px0  
+0058 D2AF             16         setb ea  
+005A                  17     main:  
+005A                  18     Loop:
+005A 758000           19         mov p0 , #0  
+005D 7590FF           20         mov p1 , #0FFH 
+0060 015A             21         ajmp Loop 
+                      22     
+0062                  23     exip:  
+0062 7580FF           24         mov p0 , #0FFH  
+0065 759000           25         mov p1 , #0 
+0068 116B             26         acall led_let_me_pass_show 
+006A 32               27         reti
+006B                  28     led_let_me_pass_show:
+006B 78FF             29         mov table_index , #255 
+006D 90008C           30         mov dptr , #table_let_me_pass
+0070 7930             31         mov col_num , #48 
+0072                  32     col_run_show:
+0072 117F             33         acall add_fun_move_a
+0074 F5A0             34         mov p2 , a 
+0076 117F             35         acall add_fun_move_a 
+0078 F5C0             36         mov p4 , a 
+007A 1183             37         acall delay 
+007C D9F4             38         djnz col_num , col_run_show
+007E 22               39         ret 
+                      40     
+                      41     
+007F                  42     add_fun_move_a:
+007F 08               43         inc table_index
+0080 E8               44         mov a , table_index 
+0081 93               45         movc a , @a+dptr 
+0082 22               46         ret 
+                      47     
+0083                  48     delay:
+0083 7F0A             49         mov r7,#10
+0085                  50     delay1:
+0085 7E28             51         mov r6,#40
+0087                  52     delay2:
+0087 DEFE             53         djnz r6,delay2
+0089 DFFA             54         djnz r7,delay1
+008B 22               55         ret
+008C                  56     table_let_me_pass: ;別
+008C FF7FC1BF         57         db 0FFH,07FH,0C1H,0BFH,0DDH,0CFH,05DH,0F0H
+0090 DDCF5DF0                
+A51 MACRO ASSEMBLER  QTION1                                                               11/30/2021 19:25:12 PAGE     2
+
+0094 DDBDDD7D         58         db 0DDH,0BDH,0DDH,07DH,0DDH,0BDH,0C1H,0C1H
+0098 DDBDC1C1                
+009C FFFFFFFF         59         db 0FFH,0FFH,0FFH,0FFH,007H,0F0H,0FFH,0BFH
+00A0 07F0FFBF                
+00A4 FF7F0080         60         db 0FFH,07FH,000H,080H,0FFH,0FFH,0FFH,0FFH 
+00A8 FFFFFFFF                
+                      61     ;當
+00AC DFFFE7FF         62         db  0DFH,0FFH,0E7H,0FFH,0F7H,003H,015H,0AAH
+00B0 F70315AA                
+00B4 D3AAD7AA         63         db  0D3H,0AAH,0D7H,0AAH,0D7H,0AAH,0D0H,082H
+00B8 D7AAD082                
+00BC D7AAD7AA         64         db  0D7H,0AAH,0D7H,0AAH,0D3H,0AAH,015H,0AAH
+00C0 D3AA15AA                
+00C4 F703D7FF         65         db  0F7H,003H,0D7H,0FFH,0E7H,0FFH,0FFH,0FFH 
+00C8 E7FFFFFF                
+                      66     
+00CC DFFFDBF7         67         db  0DFH,0FFH,0DBH,0F7H,0DBH,0B7H,0DBH,07BH
+00D0 DBB7DB7B                
+00D4 0180DCFD         68         db  001H,080H,0DCH,0FDH,0DDH,0BEH,0DFH,0BFH
+00D8 DDBEDFBF                
+00DC DFDF00EC         69         db  0DFH,0DFH,000H,0ECH,0DFH,0F3H,0DDH,0EBH
+00E0 DFF3DDEB                
+00E4 D3DD5FBE         70         db  0D3H,0DDH,05FH,0BEH,0DFH,007H,0FFH,0FFH
+00E8 DF07FFFF                
+                      71         end 
+A51 MACRO ASSEMBLER  QTION1                                                               11/30/2021 19:25:12 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E               T Y P E  V A L U E   ATTRIBUTES
+
+ADD_FUN_MOVE_A . . .  C ADDR   007FH   A   
+COL_NUM. . . . . . .    REG    R1          
+COL_RUN_SHOW . . . .  C ADDR   0072H   A   
+DELAY. . . . . . . .  C ADDR   0083H   A   
+DELAY1 . . . . . . .  C ADDR   0085H   A   
+DELAY2 . . . . . . .  C ADDR   0087H   A   
+EA . . . . . . . . .  B ADDR   00A8H.7 A   
+EX0. . . . . . . . .  B ADDR   00A8H.0 A   
+EXIP . . . . . . . .  C ADDR   0062H   A   
+IE0. . . . . . . . .  B ADDR   0088H.1 A   
+INIT_SETUP . . . . .  C ADDR   0050H   A   
+IT0. . . . . . . . .  B ADDR   0088H.0 A   
+LED_LET_ME_PASS_SHOW  C ADDR   006BH   A   
+LOOP . . . . . . . .  C ADDR   005AH   A   
+MAIN . . . . . . . .  C ADDR   005AH   A   
+P0 . . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . . .  D ADDR   00A0H   A   
+P4 . . . . . . . . .  N NUMB   00C0H   A   
+PX0. . . . . . . . .  B ADDR   00B8H.0 A   
+TABLE_INDEX. . . . .    REG    R0          
+TABLE_LET_ME_PASS. .  C ADDR   008CH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

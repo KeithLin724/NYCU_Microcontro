@@ -1,0 +1,61 @@
+A51 MACRO ASSEMBLER  QTION2                                                               10/05/2021 18:54:13 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Qtion2.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Qtion2.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1         ORG 0000H
+0000 0150              2         AJMP MAIN
+0050                   3         ORG 0050H
+                       4     
+0050                   5     main:
+0050 747F              6         MOV A , #7FH
+0052                   7     LOOP:
+0052 F590              8         MOV P1 , A ; display 
+0054 E580              9         MOV A , P0  
+                      10         
+0056 240F             11         ADD A , #0FH
+                      12     
+0058 115F             13         ACALL DELAY 
+005A E590             14         MOV A , P1 ;
+005C 03               15         RR A 
+                      16     
+005D 80F3             17         JMP LOOP
+                      18     
+005F                  19     DELAY:
+005F 7DFF             20         MOV R5,#0FFH;  
+0061                  21     DELAY1:
+0061 FE               22         MOV R6,A; 
+0062                  23     DELAY2:
+0062 7F05             24         MOV R7,#05H;  
+0064                  25     DELAY3:
+0064 DFFE             26         DJNZ R7,DELAY3 
+0066 DEFA             27         DJNZ R6,DELAY2 
+0068 DDF7             28         DJNZ R5,DELAY1 
+006A 22               29         RET  
+                      30         END
+A51 MACRO ASSEMBLER  QTION2                                                               10/05/2021 18:54:13 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   005FH   A   
+DELAY1 . . . . . .  C ADDR   0061H   A   
+DELAY2 . . . . . .  C ADDR   0062H   A   
+DELAY3 . . . . . .  C ADDR   0064H   A   
+LOOP . . . . . . .  C ADDR   0052H   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

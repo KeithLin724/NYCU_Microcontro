@@ -1,0 +1,209 @@
+A51 MACRO ASSEMBLER  QTION2                                                               11/30/2021 19:55:26 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Qtion2.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Qtion2.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1         org 0000H
+0000 0150              2         ajmp init_setup
+0003                   3         org 0003H
+0003 02006D            4         ljmp exip 
+0050                   5         org 0050H
+                       6     
+  00C0                 7         p4 equ 0C0H
+  REG                  8         table_index equ r0 
+  REG                  9         col_num equ r1 
+  REG                 10         save_start equ r2 
+                      11     
+0050                  12     init_setup:  
+0050 D288             13         setb it0  
+0052 D2A8             14         setb ex0  
+0054 C289             15         clr ie0  
+0056 D2B8             16         setb px0  
+0058 D2AF             17         setb ea  
+005A 7A5F             18         mov save_start , #95  
+005C 90009C           19         mov dptr , #table_let_me_pass
+                      20     
+005F                  21     main:  
+005F                  22     Loop:
+005F 758000           23         mov p0 , #0 
+0062 7590FF           24         mov p1 , #0FFH  
+0065 75A0FF           25         mov p2 , #0FFH 
+0068 75C0FF           26         mov p4 , #0FFH 
+006B 015F             27         ajmp Loop 
+                      28     
+                      29     
+006D                  30     exip:  
+006D 7580FF           31         mov p0 , #0FFH  
+0070 759000           32         mov p1 , #0 
+0073 117E             33         acall led_let_me_pass_show 
+0075 BAFF03           34         cjne save_start , #255 , dec_fun  
+0078 7ABD             35         mov save_start , #189  
+007A 32               36         reti
+                      37     
+007B                  38     dec_fun:
+007B 1A               39         dec save_start  
+007C 1A               40         dec save_start 
+007D 32               41         reti
+                      42     
+007E                  43     led_let_me_pass_show:
+007E EA               44         mov a , save_start
+007F F8               45         mov table_index , a
+0080 7930             46         mov col_num , #48 
+0082                  47     col_run_show:
+0082 118F             48         acall add_fun_move_a
+0084 F5A0             49         mov p2 , a 
+0086 118F             50         acall add_fun_move_a 
+0088 F5C0             51         mov p4 , a 
+008A 1193             52         acall delay 
+008C D9F4             53         djnz col_num , col_run_show
+008E 22               54         ret 
+                      55     
+                      56     
+008F                  57     add_fun_move_a:
+008F 08               58         inc table_index
+A51 MACRO ASSEMBLER  QTION2                                                               11/30/2021 19:55:26 PAGE     2
+
+0090 E8               59         mov a , table_index 
+0091 93               60         movc a , @a+dptr 
+0092 22               61         ret 
+                      62     
+                      63     
+0093                  64     delay:
+0093 7F0A             65         mov r7,#10
+0095                  66     delay1:
+0095 7E28             67         mov r6,#40
+0097                  68     delay2:
+0097 DEFE             69         djnz r6,delay2
+0099 DFFA             70         djnz r7,delay1
+009B 22               71         ret
+                      72     
+                      73         
+009C                  74     table_let_me_pass: 
+                      75     ;space
+009C FFFFFFFF         76         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+00A0 FFFFFFFF                
+00A4 FFFFFFFF         77         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+00A8 FFFFFFFF                
+00AC FFFFFFFF         78         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+00B0 FFFFFFFF                
+00B4 FFFFFFFF         79         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+00B8 FFFFFFFF                
+                      80     
+00BC FFFFFFFF         81         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+00C0 FFFFFFFF                
+00C4 FFFFFFFF         82         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+00C8 FFFFFFFF                
+00CC FFFFFFFF         83         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+00D0 FFFFFFFF                
+00D4 FFFFFFFF         84         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+00D8 FFFFFFFF                
+                      85     
+00DC FFFFFFFF         86         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+00E0 FFFFFFFF                
+00E4 FFFFFFFF         87         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+00E8 FFFFFFFF                
+00EC FFFFFFFF         88         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+00F0 FFFFFFFF                
+00F4 FFFFFFFF         89         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+00F8 FFFFFFFF                
+                      90     ;別
+00FC FF7FC1BF         91         db 0FFH,07FH,0C1H,0BFH,0DDH,0CFH,05DH,0F0H
+0100 DDCF5DF0                
+0104 DDBDDD7D         92         db 0DDH,0BDH,0DDH,07DH,0DDH,0BDH,0C1H,0C1H
+0108 DDBDC1C1                
+010C FFFFFFFF         93         db 0FFH,0FFH,0FFH,0FFH,007H,0F0H,0FFH,0BFH
+0110 07F0FFBF                
+0114 FF7F0080         94         db 0FFH,07FH,000H,080H,0FFH,0FFH,0FFH,0FFH 
+0118 FFFFFFFF                
+                      95     ;當
+011C DFFFE7FF         96         db  0DFH,0FFH,0E7H,0FFH,0F7H,003H,015H,0AAH
+0120 F70315AA                
+0124 D3AAD7AA         97         db  0D3H,0AAH,0D7H,0AAH,0D7H,0AAH,0D0H,082H
+0128 D7AAD082                
+012C D7AAD7AA         98         db  0D7H,0AAH,0D7H,0AAH,0D3H,0AAH,015H,0AAH
+0130 D3AA15AA                
+0134 F703D7FF         99         db  0F7H,003H,0D7H,0FFH,0E7H,0FFH,0FFH,0FFH  
+0138 E7FFFFFF                
+                     100     
+                     101     ;me 
+013C DFFFDBF7        102         db  0DFH,0FFH,0DBH,0F7H,0DBH,0B7H,0DBH,07BH
+0140 DBB7DB7B                
+0144 0180DCFD        103         db  001H,080H,0DCH,0FDH,0DDH,0BEH,0DFH,0BFH
+A51 MACRO ASSEMBLER  QTION2                                                               11/30/2021 19:55:26 PAGE     3
+
+0148 DDBEDFBF                
+014C DFDF00EC        104         db  0DFH,0DFH,000H,0ECH,0DFH,0F3H,0DDH,0EBH
+0150 DFF3DDEB                
+0154 D3DD5FBE        105         db  0D3H,0DDH,05FH,0BEH,0DFH,007H,0FFH,0FFH
+0158 DF07FFFF                
+                     106     
+                     107     ;space
+015C FFFFFFFF        108         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+0160 FFFFFFFF                
+0164 FFFFFFFF        109         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+0168 FFFFFFFF                
+016C FFFFFFFF        110         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+0170 FFFFFFFF                
+0174 FFFFFFFF        111         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+0178 FFFFFFFF                
+                     112     
+017C FFFFFFFF        113         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+0180 FFFFFFFF                
+0184 FFFFFFFF        114         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+0188 FFFFFFFF                
+018C FFFFFFFF        115         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+0190 FFFFFFFF                
+0194 FFFFFFFF        116         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+0198 FFFFFFFF                
+                     117     
+019C FFFFFFFF        118         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+01A0 FFFFFFFF                
+01A4 FFFFFFFF        119         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+01A8 FFFFFFFF                
+01AC FFFFFFFF        120         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+01B0 FFFFFFFF                
+01B4 FFFFFFFF        121         db  0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH,0FFH
+01B8 FFFFFFFF                
+                     122         end 
+A51 MACRO ASSEMBLER  QTION2                                                               11/30/2021 19:55:26 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E               T Y P E  V A L U E   ATTRIBUTES
+
+ADD_FUN_MOVE_A . . .  C ADDR   008FH   A   
+COL_NUM. . . . . . .    REG    R1          
+COL_RUN_SHOW . . . .  C ADDR   0082H   A   
+DEC_FUN. . . . . . .  C ADDR   007BH   A   
+DELAY. . . . . . . .  C ADDR   0093H   A   
+DELAY1 . . . . . . .  C ADDR   0095H   A   
+DELAY2 . . . . . . .  C ADDR   0097H   A   
+EA . . . . . . . . .  B ADDR   00A8H.7 A   
+EX0. . . . . . . . .  B ADDR   00A8H.0 A   
+EXIP . . . . . . . .  C ADDR   006DH   A   
+IE0. . . . . . . . .  B ADDR   0088H.1 A   
+INIT_SETUP . . . . .  C ADDR   0050H   A   
+IT0. . . . . . . . .  B ADDR   0088H.0 A   
+LED_LET_ME_PASS_SHOW  C ADDR   007EH   A   
+LOOP . . . . . . . .  C ADDR   005FH   A   
+MAIN . . . . . . . .  C ADDR   005FH   A   
+P0 . . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . . .  D ADDR   00A0H   A   
+P4 . . . . . . . . .  N NUMB   00C0H   A   
+PX0. . . . . . . . .  B ADDR   00B8H.0 A   
+SAVE_START . . . . .    REG    R2          
+TABLE_INDEX. . . . .    REG    R0          
+TABLE_LET_ME_PASS. .  C ADDR   009CH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

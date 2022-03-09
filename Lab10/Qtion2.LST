@@ -1,0 +1,221 @@
+A51 MACRO ASSEMBLER  QTION2                                                               12/07/2021 20:33:10 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Qtion2.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Qtion2.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1         org 0000H
+0000 0150              2         ajmp init_set
+000B                   3         org 000BH
+000B 018C              4         ajmp timerR0
+0013                   5         org 0013H
+0013 0191              6         ajmp int1_trigger 
+0050                   7         org 0050H
+                       8     
+  REG                  9     ss_dis_loca_ptr equ r0 
+  REG                 10     save_ss_dis_loca equ r1 
+  0080                11     ss_display equ p0 
+  00A0                12     ss_display_out_loca equ p2 
+                      13     
+0050                  14     init_set:
+0050 D2A9             15         setb et0  
+0052 D28A             16         setb it1  
+0054 D2AA             17         setb ex1  
+0056 D2BA             18         setb px1   
+0058 D2AF             19         setb ea  
+                      20     
+005A 7589D2           21         mov TMOD , #11010010b  
+005D 758CE3           22         mov th0,#227  
+0060 758AE3           23         mov tl0,#227  
+                      24     
+0063 758D00           25         mov th1,#0  
+0066 758B00           26         mov tl1,#0  
+                      27     
+0069 D28C             28         setb tr0  
+006B D28E             29         setb tr1   
+006D C28D             30         clr tf0  
+006F C28B             31         clr ie1  
+0071 90011A           32         mov dptr,#num_table   
+                      33     
+0074                  34     start_show:
+0074 7840             35         mov ss_dis_loca_ptr , #40H  
+0076 79FE             36         mov save_ss_dis_loca , #11111110b
+                      37     
+0078                  38     show:
+0078 E6               39         mov a , @ss_dis_loca_ptr
+0079 93               40         movc a , @a+dptr 
+007A F580             41         mov ss_display , a 
+                      42     
+007C 08               43         inc ss_dis_loca_ptr
+007D 89A0             44         mov ss_display_out_loca , save_ss_dis_loca
+                      45     
+007F 3111             46         acall delay 
+0081 75A0FF           47         mov ss_display_out_loca , #0FFH
+                      48     
+0084 E9               49         mov a , save_ss_dis_loca  
+0085 23               50         rl  a 
+0086 F9               51         mov save_ss_dis_loca , a 
+                      52     
+0087 B9EFEE           53         cjne save_ss_dis_loca,#11101111b , show  
+008A 0174             54         ajmp start_show 
+                      55     
+008C                  56     timerR0:
+008C C28D             57         clr tf0  
+008E B290             58         cpl p1.0  
+A51 MACRO ASSEMBLER  QTION2                                                               12/07/2021 20:33:10 PAGE     2
+
+0090 32               59         reti 
+                      60     
+0091                  61     int1_trigger:  
+0091 C28E             62         clr tr1  
+0093 C28C             63         clr tr0  
+                      64         
+0095 AA8D             65         mov r2 , th1  
+                      66         
+                      67     
+0097 EA               68         mov a , r2 
+0098 75F006           69         mov b , #6 
+009B A4               70         mul ab  
+                      71         
+009C 75F00A           72         mov b , #10 
+009F 84               73         div ab  
+                      74         
+00A0 F537             75         mov 37H , a  
+00A2 85F030           76         mov 30H , b  
+                      77     
+00A5 EA               78         mov a , r2 
+00A6 75F005           79         mov b , #5 
+00A9 A4               80         mul ab  
+00AA 2537             81         add a , 37H 
+                      82     
+00AC 75F00A           83         mov b , #10 
+00AF 84               84         div ab  
+                      85         
+00B0 F537             86         mov 37H , a  
+00B2 85F031           87         mov 31H , b  
+                      88     
+00B5 EA               89         mov a , r2 
+00B6 75F002           90         mov b , #2
+00B9 A4               91         mul ab  
+00BA 2537             92         add a , 37H 
+                      93     
+00BC 75F00A           94         mov b , #10 
+00BF 84               95         div ab  
+                      96         
+00C0 F537             97         mov 37H , a  
+00C2 85F032           98         mov 32H , b  
+                      99         
+                     100         
+                     101         
+                     102         
+00C5 E58B            103         mov a , tl1  
+00C7 75F064          104         mov b , #100  
+00CA 84              105         div ab 
+00CB F542            106         mov 42H,a
+                     107     
+00CD E5F0            108         mov a ,b 
+00CF 75F00A          109         mov b , #10
+00D2 84              110         div ab 
+00D3 F541            111         mov 41H,  a  
+00D5 85F040          112         mov 40H , b  
+                     113     
+                     114     
+                     115     
+00D8 E530            116         mov a , 30H  
+00DA 2540            117         add a , 40H 
+00DC 75F00A          118         mov b , #10 
+00DF 84              119         div ab 
+00E0 85F040          120         mov 40H , b 
+00E3 F537            121         mov 37H , a  
+                     122     
+00E5 E531            123         mov a , 31H  
+00E7 2541            124         add a , 41H 
+A51 MACRO ASSEMBLER  QTION2                                                               12/07/2021 20:33:10 PAGE     3
+
+00E9 2537            125         add a , 37H  
+00EB 75F00A          126         mov b , #10 
+00EE 84              127         div ab 
+00EF 85F041          128         mov 41H , b 
+00F2 F537            129         mov 37H , a  
+                     130     
+00F4 E532            131         mov a , 32H  
+00F6 2542            132         add a , 42H 
+00F8 2537            133         add a , 37H  
+00FA 75F00A          134         mov b , #10 
+00FD 84              135         div ab 
+00FE 85F042          136         mov 42H , b 
+0101 F543            137         mov 43H , a  
+                     138     
+0103 753700          139         mov 37H , #0
+                     140     
+0106 758B00          141         mov tl1 , #0  
+0109 758D00          142         mov th1 , #0 
+                     143     
+010C D28C            144         setb tr0 
+010E D28E            145         setb tr1 
+0110 32              146         reti 
+                     147     
+0111                 148     delay:  
+0111 7D14            149             mov r5,#20
+0113                 150     delay1:
+0113 7E19            151             mov r6,#25
+0115                 152     delay2:
+0115 DEFE            153             djnz r6,delay2
+0117 DDFA            154             djnz r5,delay1
+0119 22              155             ret
+                     156     
+                     157     
+011A                 158     num_table:
+011A C0F9A4B0        159         db  0C0H, 0F9H,     0A4H, 0B0H,     099H  
+011E 99                      
+011F 9282F880        160             db      092H, 082H,     0F8H, 080H,     090H  
+0123 90                      
+                     161         end 
+A51 MACRO ASSEMBLER  QTION2                                                               12/07/2021 20:33:10 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E              T Y P E  V A L U E   ATTRIBUTES
+
+B . . . . . . . . .  D ADDR   00F0H   A   
+DELAY . . . . . . .  C ADDR   0111H   A   
+DELAY1. . . . . . .  C ADDR   0113H   A   
+DELAY2. . . . . . .  C ADDR   0115H   A   
+EA. . . . . . . . .  B ADDR   00A8H.7 A   
+ET0 . . . . . . . .  B ADDR   00A8H.1 A   
+EX1 . . . . . . . .  B ADDR   00A8H.2 A   
+IE1 . . . . . . . .  B ADDR   0088H.3 A   
+INIT_SET. . . . . .  C ADDR   0050H   A   
+INT1_TRIGGER. . . .  C ADDR   0091H   A   
+IT1 . . . . . . . .  B ADDR   0088H.2 A   
+NUM_TABLE . . . . .  C ADDR   011AH   A   
+P0. . . . . . . . .  D ADDR   0080H   A   
+P1. . . . . . . . .  D ADDR   0090H   A   
+P2. . . . . . . . .  D ADDR   00A0H   A   
+PX1 . . . . . . . .  B ADDR   00B8H.2 A   
+SAVE_SS_DIS_LOCA. .    REG    R1          
+SHOW. . . . . . . .  C ADDR   0078H   A   
+SS_DISPLAY. . . . .  D ADDR   0080H   A   
+SS_DISPLAY_OUT_LOCA  D ADDR   00A0H   A   
+SS_DIS_LOCA_PTR . .    REG    R0          
+START_SHOW. . . . .  C ADDR   0074H   A   
+TF0 . . . . . . . .  B ADDR   0088H.5 A   
+TH0 . . . . . . . .  D ADDR   008CH   A   
+TH1 . . . . . . . .  D ADDR   008DH   A   
+TIMERR0 . . . . . .  C ADDR   008CH   A   
+TL0 . . . . . . . .  D ADDR   008AH   A   
+TL1 . . . . . . . .  D ADDR   008BH   A   
+TMOD. . . . . . . .  D ADDR   0089H   A   
+TR0 . . . . . . . .  B ADDR   0088H.4 A   
+TR1 . . . . . . . .  B ADDR   0088H.6 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

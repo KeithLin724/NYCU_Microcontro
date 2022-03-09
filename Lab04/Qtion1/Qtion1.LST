@@ -1,0 +1,122 @@
+A51 MACRO ASSEMBLER  QTION1                                                               10/19/2021 18:35:19 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Qtion1.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Qtion1.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     org 0000H
+0000 0150              2     ajmp main
+0050                   3     org 0050H
+                       4     
+0050                   5     main:
+0050 7800              6         mov r0 , #0  
+0052 7900              7         mov r1 , #0  
+0054 7A00              8         mov r2 , #0  
+0056 7B00              9         mov r3 , #0  
+0058 7C09             10         mov r4 , #9  
+                      11     
+005A 9000B1           12         mov dptr ,#num_table
+005D                  13     Loop:
+005D 7590FF           14         mov p1 , #0FFH  
+                      15     
+0060 E9               16         mov a , r1
+0061 93               17         movc a , @a+dptr
+0062 F580             18         mov p0 , a  
+0064 7590F7           19         mov p1 , #0F7H  
+                      20     
+0067 08               21         inc r0  
+                      22     
+0068 11A4             23         acall DELAY  
+                      24     
+006A EA               25         mov a , r2
+006B 93               26         movc a , @a+dptr
+006C F580             27         mov p0 , a  
+006E 7590FB           28         mov p1 , #0FBH  
+0071 11A4             29         acall DELAY  
+                      30     
+0073 EB               31         mov a , r3
+0074 93               32         movc a , @a+dptr
+0075 F580             33         mov p0 , a  
+0077 7590FD           34         mov p1 , #0FDH  
+007A 11A4             35         acall DELAY  
+                      36     
+007C EC               37         mov a , r4
+007D 93               38         movc a , @a+dptr
+007E F580             39         mov p0 , a  
+0080 7590FE           40         mov p1 , #0FEH  
+0083 11A4             41         acall DELAY  
+                      42     
+0085 B8FAD5           43         cjne r0 , #0FAH , Loop  
+                      44         
+0088 1C               45         dec r4  
+0089 7800             46         mov r0 , #0  
+008B BCFFCF           47         cjne r4 , #0FFH , Loop  
+                      48         
+008E                  49     fun:
+008E 7C09             50         mov r4 , #9
+0090 1B               51         dec r3  
+0091 BBFFC9           52         cjne r3 , #0FFH , Loop
+                      53         
+0094 7B09             54         mov r3 , #9
+0096 1A               55         dec r2  
+0097 BAFFC3           56         cjne r2 , #0FFH , Loop
+                      57     
+009A 7A09             58         mov r2 , #9
+A51 MACRO ASSEMBLER  QTION1                                                               10/19/2021 18:35:19 PAGE     2
+
+009C 19               59         dec r1
+009D B9FFBD           60         cjne r1 ,#0FFH , Loop
+                      61     
+00A0 7909             62         mov r1 , #9
+00A2 015D             63         ajmp Loop  
+                      64     
+                      65     
+00A4                  66     DELAY:
+00A4 7DFF             67             MOV R5,#0FFH
+00A6                  68     DELAY1:
+00A6 7E01             69             MOV R6,#1H
+00A8                  70     DELAY2:
+00A8 7F01             71             MOV R7,#1H
+00AA                  72     DELAY3:
+00AA DFFE             73             DJNZ R7,DELAY3
+00AC DEFA             74             DJNZ R6,DELAY2
+00AE DDF6             75             DJNZ R5,DELAY1
+00B0 22               76             RET
+00B1                  77     num_table:
+                      78             
+00B1 C0F9A4B0         79         db  0C0H, 0F9H,     0A4H, 0B0H,     099H
+00B5 99                      
+                      80             
+00B6 9282F880         81             db      092H, 082H,     0F8H, 080H,     090H            
+00BA 90                      
+                      82     
+                      83     
+                      84     
+                      85         END
+A51 MACRO ASSEMBLER  QTION1                                                               10/19/2021 18:35:19 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   00A4H   A   
+DELAY1 . . . . . .  C ADDR   00A6H   A   
+DELAY2 . . . . . .  C ADDR   00A8H   A   
+DELAY3 . . . . . .  C ADDR   00AAH   A   
+FUN. . . . . . . .  C ADDR   008EH   A   
+LOOP . . . . . . .  C ADDR   005DH   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+NUM_TABLE. . . . .  C ADDR   00B1H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

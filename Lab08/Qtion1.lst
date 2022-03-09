@@ -1,0 +1,115 @@
+A51 MACRO ASSEMBLER  QTION1                                                               01/05/2022 01:36:28 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Qtion1.obj
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Qtion1\Qtion1.asm SET(SMALL) DEBUG PRINT(.\Qtion1.lst) OBJECT(Qtion1.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1         org 0000H
+0000 0150              2         ajmp main
+0050                   3         org 0050H
+                       4     
+  0080                 5     LCD_set equ p0 
+  00A0                 6     LCD_data_bus equ p2 
+0050                   7     main:
+0050                   8     init_LCD:
+0050 1196              9         acall Delay_cmd 
+0052 1196             10         acall Delay_cmd  
+                      11     
+0054 743B             12         mov a , #00111011b  
+0056 1178             13         acall set_up_cmd 
+                      14     
+0058 740C             15         mov a , #00001100b  
+005A 1178             16         acall set_up_cmd
+                      17     
+005C 7401             18         mov a , #1 
+005E 1178             19         acall set_up_cmd 
+                      20     
+0060 1196             21         acall Delay_cmd 
+0062 1196             22         acall Delay_cmd  
+                      23     
+0064 7480             24         mov a , #10000000b  
+0066 1178             25         acall set_up_cmd 
+                      26     
+0068                  27     make_dptr:
+0068 9000A3           28         mov dptr , #ID_table
+006B 7480             29         mov a , #10000000b  
+006D 1178             30         acall set_up_cmd 
+006F                  31     Loop:
+006F E4               32         clr a 
+0070 93               33         movc a , @a+dptr 
+0071 60F5             34         jz make_dptr 
+0073 1187             35         acall upload_data 
+0075 A3               36         inc dptr 
+0076 80F7             37         jmp Loop 
+                      38     
+0078                  39     set_up_cmd:  
+0078 F5A0             40         mov LCD_data_bus , a 
+007A 1196             41         acall Delay_cmd 
+                      42     
+007C 758004           43         mov LCD_set , #00000100b 
+007F 1196             44         acall Delay_cmd 
+                      45     
+0081 758000           46         mov LCD_set , #00000000b 
+0084 1196             47         acall Delay_cmd 
+0086 22               48         ret 
+                      49     
+0087                  50     upload_data:
+0087 F5A0             51         mov LCD_data_bus , a 
+0089 1196             52         acall Delay_cmd 
+008B 758005           53         mov LCD_set , #00000101b
+008E 1196             54         acall Delay_cmd 
+0090 758001           55         mov LCD_set , #00000001b 
+0093 1196             56         acall Delay_cmd 
+0095 22               57         ret 
+                      58     
+A51 MACRO ASSEMBLER  QTION1                                                               01/05/2022 01:36:28 PAGE     2
+
+0096                  59     Delay_cmd:
+0096 7D0A             60             mov r5,#10
+0098                  61     Del1:
+0098 7EF0             62             mov r6,#0F0H
+009A                  63     Del2:
+009A 7F0A             64             mov r7,#10
+009C                  65     Del3:
+009C DFFE             66             djnz r7,Del3
+009E DEFA             67             djnz r6,Del2
+00A0 DDF6             68             djnz r5,Del1
+00A2 22               69             ret
+                      70     
+00A3                  71     ID_table:
+00A3 31303935         72         db "109511276" , 0 
+00A7 31313237                
+00AB 3600                    
+                      73         end 
+A51 MACRO ASSEMBLER  QTION1                                                               01/05/2022 01:36:28 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DEL1 . . . . . . .  C ADDR   0098H   A   
+DEL2 . . . . . . .  C ADDR   009AH   A   
+DEL3 . . . . . . .  C ADDR   009CH   A   
+DELAY_CMD. . . . .  C ADDR   0096H   A   
+ID_TABLE . . . . .  C ADDR   00A3H   A   
+INIT_LCD . . . . .  C ADDR   0050H   A   
+LCD_DATA_BUS . . .  D ADDR   00A0H   A   
+LCD_SET. . . . . .  D ADDR   0080H   A   
+LOOP . . . . . . .  C ADDR   006FH   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+MAKE_DPTR. . . . .  C ADDR   0068H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+SET_UP_CMD . . . .  C ADDR   0078H   A   
+UPLOAD_DATA. . . .  C ADDR   0087H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

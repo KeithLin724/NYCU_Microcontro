@@ -1,0 +1,98 @@
+A51 MACRO ASSEMBLER  QTION3                                                               12/14/2021 21:02:25 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Qtion3.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Qtion3.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1         ORG 00H
+0000 804E              2         JMP     START
+000B                   3         ORG         0BH
+000B 0194              4         JMP     TIMER0              ;TIMER0中斷
+001B                   5         ORG     1BH
+001B 807E              6         JMP     TIMER1              ;TIMER1中斷
+0050                   7         ORG         50H
+0050                   8     START: 
+0050 C280              9         CLR             P0.0                        ;P2.0為揚聲器               
+0052 7900             10         MOV         R1,#0           ;R1做為TABLE內移動counter
+0054 7A00             11         MOV         R2,#0           ;R2決定delay的時間(上數到20)
+0056 758911           12             MOV             TMOD,#11H       ;timer0 timer1 皆是mode 1
+0059 D2A9             13             SETB            ET0                     ;enable timer0中斷            
+005B D2AB             14             SETB            ET1                             ;enable timer1中斷
+005D D2AF             15             SETB            EA                              ;開啟中斷
+005F 758BB0           16             MOV             TL1,#176                ;timer1延遲時間為50ms
+0062 758D3C           17             MOV             TH1,#60
+0065 D28E             18             SETB            TR1                             ;timer1 開始計時
+0067                  19     BEGIN:
+0067 900086           20             MOV             DPTR,#SCALE6    ;scale6給DPTR
+006A E9               21             MOV             A,R1            
+006B 93               22             MOVC            A,@A+DPTR               ;取得scale6的值(TONE)
+006C FE               23             MOV             R6,A                    ;TONE存入R6
+006D 90008D           24             MOV             DPTR,#SCALE7    ;scale7給DPTR
+0070 E9               25             MOV             A,R1
+0071 93               26             MOVC            A,@A+DPTR               ;取得scale7的值(TEMPO)
+0072 FF               27             MOV             R7,A                    ;TEMPO存入R7
+0073 8F8A             28             MOV             TL0,R7                  ;R7給time low8bits
+0075 8E8C             29             MOV             TH0,R6                  ;R6給time high8bits
+0077 D28C             30             SETB            TR0                             ;timer0開始計時，將所指到�
+                             ��音符
+                      31     ;播出
+0079 09               32             INC             R1                              ;R1+1，準備播放下一個音
+007A BA14FD           33             CJNE            R2,#20,$                        ;決定delay時間=20*50ms=1s
+007D C28C             34             CLR             TR0                             ;清空
+007F 7A00             35             MOV             R2,#0                   ;重設delay的R2指標
+0081 B907E3           36             CJNE    R1,#7,BEGIN             ;如果指標為7，表示播放完全部的音
+0084 80CA             37             JMP     START                   ;跳回START重新設定
+0086                  38     SCALE6:
+0086 FCFC             39             DB      0FCH,0FCH
+0088 FDFD             40             DB      0FDH,0FDH
+008A FDFDFE           41         DB  0FDH,0FDH,0FEH  
+008D                  42     SCALE7:
+008D 44AC             43             DB              044H,0ACH       
+008F 0A34             44             DB              00AH,034H       
+0091 83C80B           45             DB              083H,0C8H,00BH          
+0094                  46     TIMER0:                                          ;控制響的頻率
+0094 8F8A             47             MOV     TL0,R7                  ;重設音調的TONE和TEMPO
+0096 8E8C             48             MOV     TH0,R6
+0098 B2A0             49             CPL     P2.0                            ;將揚聲器反向
+009A 32               50             RETI                                            ;回到中斷點下行
+009B                  51     TIMER1:                                                 ;控制響50ms*20次=1000ms=1s
+009B 758BB0           52             MOV     TL1,#176                ;重設時間50ms
+009E 758D3C           53             MOV     TH1,#60
+00A1 0A               54             INC             R2                              ;R2+1，直到20才能有20*50ms秒
+00A2 32               55             RETI                                            ;回到中斷點下行
+                      56     end 
+A51 MACRO ASSEMBLER  QTION3                                                               12/14/2021 21:02:25 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+BEGIN. . . . . . .  C ADDR   0067H   A   
+EA . . . . . . . .  B ADDR   00A8H.7 A   
+ET0. . . . . . . .  B ADDR   00A8H.1 A   
+ET1. . . . . . . .  B ADDR   00A8H.3 A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+SCALE6 . . . . . .  C ADDR   0086H   A   
+SCALE7 . . . . . .  C ADDR   008DH   A   
+START. . . . . . .  C ADDR   0050H   A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TIMER0 . . . . . .  C ADDR   0094H   A   
+TIMER1 . . . . . .  C ADDR   009BH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

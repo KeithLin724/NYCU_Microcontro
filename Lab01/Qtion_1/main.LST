@@ -1,0 +1,63 @@
+A51 MACRO ASSEMBLER  MAIN                                                                 09/28/2021 20:42:48 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+NO OBJECT MODULE REQUESTED
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE main.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG 0000H
+0000 0150              2         AJMP MAIN
+0050                   3         ORG 0050H
+                       4     
+0050                   5     MAIN:
+0050 747F              6         MOV A, #7FH
+0052 75F07F            7         MOV B, #7FH
+0055                   8     LOOP:    
+0055 F590              9             MOV P1, A
+0057                  10         MOV P7, B
+*** _________________________________^
+*** ERROR #A45 IN 10 (main.asm, LINE 10): UNDEFINED SYMBOL (PASS-2)
+005A 23               11         RL A
+005B                  12         RR B
+*** ________________________________^
+*** ERROR #A39 IN 12 (main.asm, LINE 12): REGISTER OPERAND EXPECTED
+005B 115F             13         ACALL DELAY
+005D 80F6             14         JMP LOOP
+                      15     
+005F                  16     DELAY:
+005F 7DFF             17         MOV R5,#0FFH
+0061                  18     DELAY1:
+0061 7EFF             19         MOV R6,#0FFH
+0063                  20     DELAY2:
+0063 7F05             21         MOV R7,#05H   
+0065                  22     DELAY3:
+0065 DFFE             23         DJNZ R7,DELAY3
+0067 DEFA             24             DJNZ R6,DELAY2
+0069 DDF6             25             DJNZ R5,DELAY1
+006B 22               26             RET 
+                      27         END  
+A51 MACRO ASSEMBLER  MAIN                                                                 09/28/2021 20:42:48 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+B. . . . . . . . .  D ADDR   00F0H   A   
+DELAY. . . . . . .  C ADDR   005FH   A   
+DELAY1 . . . . . .  C ADDR   0061H   A   
+DELAY2 . . . . . .  C ADDR   0063H   A   
+DELAY3 . . . . . .  C ADDR   0065H   A   
+LOOP . . . . . . .  C ADDR   0055H   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P7 . . . . . . . .    ----   -----       
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 2 ERROR(S)

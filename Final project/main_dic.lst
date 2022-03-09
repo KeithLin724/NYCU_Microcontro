@@ -1,0 +1,205 @@
+C51 COMPILER V8.16   MAIN_DIC                                                              01/18/2022 01:37:38 PAGE 1   
+
+
+C51 COMPILER V8.16, COMPILATION OF MODULE MAIN_DIC
+OBJECT MODULE PLACED IN main_dic.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE code\main_dic.c OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\main_di
+                    -c.lst) OBJECT(main_dic.obj)
+
+line level    source
+
+   1          #include <REG_MPC82G516.H>
+   2          #include "package.h"
+   3          #include <STDIO.H>
+   4          #include <STDLIB.H>
+   5          
+   6          
+   7          Byte state = 0;//0  pict dic : 1 is rand ans 
+   8          Byte dic_num = 1; // min is 1 : max is 8
+   9          Byte total_dot = 0; // about dic 
+  10          Byte pos = 0x80;
+  11          Byte i = 0;
+  12          Byte can_show = 0; // false ;
+  13          Byte clean = 0;
+  14          
+  15          Byte Dic_arr[8];
+  16          
+  17          
+  18          char num_str_for_fun[4];
+  19          
+  20          /*void to_num_str(Byte num) {
+  21              Byte j;
+  22              for (j = 0; j < 4; i++) {
+  23                  num_str_for_fun[i] = '\0';
+  24              }
+  25              sprintf(num_str_for_fun, "%d", num);
+  26          
+  27          }*/
+  28          
+  29          
+  30          
+  31          void dic_pick_inter_input() interrupt 0 using 2 {
+  32   1      
+  33   1          switch (state) {
+  34   2          case 0:
+  35   2              dic_num++;
+  36   2              if (dic_num > 8) {
+  37   3                  dic_num = 1;
+  38   3              }
+  39   2              //LCDSetUpCmd(0x01);
+  40   2              //LCDSetUpCmd(0x80); // set ddram to 0x80 is 0 0xC0
+  41   2              //LCD_upload_str("pick dic : ");
+  42   2      
+  43   2              LCDSetUpCmd(0xC0);
+  44   2              LCDUploadData(dic_num + '0');
+  45   2      
+  46   2      
+  47   2              break;
+  48   2          case 1:
+  49   2              //LCDSetUpCmd(0x01);
+  50   2              total_dot = 0;
+  51   2              for (i = 0; i < dic_num; i++) {
+  52   3                  Dic_arr[i] = rand() % 6 + 1;
+  53   3                  total_dot += Dic_arr[i];
+  54   3              }
+C51 COMPILER V8.16   MAIN_DIC                                                              01/18/2022 01:37:38 PAGE 2   
+
+  55   2      
+  56   2              pos = 0x80;
+  57   2              for (i = 0; i < dic_num; i++) {
+  58   3                  LCDSetUpCmd(pos);
+  59   3                  LCDUploadData(Dic_arr[i] + '0');
+  60   3                  pos += 2;
+  61   3              }
+  62   2      
+  63   2      
+  64   2              LCDSetUpCmd(0xC9);
+  65   2              LCD_upload_str("  ");
+  66   2              //LCD_upload_str("total is ");
+  67   2              //to_num_str(total_dot);
+  68   2              //LCD_upload_str(num_str_for_fun);
+  69   2              if (total_dot > 10) {
+  70   3                  LCDUploadData(total_dot / 10 + '0');
+  71   3                  LCDUploadData(total_dot % 10 + '0');
+  72   3              }
+  73   2              else {
+  74   3                  LCDUploadData(total_dot + '0');
+  75   3              }
+  76   2      
+  77   2      
+  78   2              break;
+  79   2          default:
+  80   2              break;
+  81   2          }
+  82   1      }
+  83          
+  84          void mode_change_inter() interrupt 2 using 2 {
+  85   1          state++;
+  86   1          /*if (state == 0) {
+  87   1              //LCDSetUpCmd(0x80); // set ddram to 0x80 is 0 0xC0
+  88   1              //LCD_upload_str("pick dic : ");
+  89   1          }*/
+  90   1      
+  91   1          if (state > 1) { // only 0 and 1 
+  92   2              state = 0;
+  93   2              //can_show = 0;// can not show ; 
+  94   2              clean = 1;
+  95   2          }
+  96   1          LCDSetUpCmd(0x01);
+  97   1          if (state == 1) {
+  98   2      
+  99   2              LCDSetUpCmd(LCD_DDram[LCD_DOWN]);
+ 100   2              LCD_upload_str("total is ");
+ 101   2      
+ 102   2          }
+ 103   1          else {
+ 104   2              //LCDSetUpCmd(0x01);
+ 105   2              LCDSetUpCmd(LCD_DDram[LCD_UP]); // set ddram to 0x80 is 0 0xC0
+ 106   2              LCD_upload_str("pick dic : ");
+ 107   2          }
+ 108   1      }
+ 109          
+ 110          
+ 111          
+ 112          
+ 113          void main() {
+ 114   1          // open INT0
+ 115   1          IT0 = 1; /// falling edge 
+ 116   1          EX0 = 1;
+C51 COMPILER V8.16   MAIN_DIC                                                              01/18/2022 01:37:38 PAGE 3   
+
+ 117   1      
+ 118   1          IT1 = 1;
+ 119   1          EX1 = 1;
+ 120   1      
+ 121   1          PX0 = 1;
+ 122   1          EA = 1;
+ 123   1          //
+ 124   1      
+ 125   1          state = 1;
+ 126   1          total_dot = 0;
+ 127   1          dic_num = 1;
+ 128   1      
+ 129   1          LCDInit();
+ 130   1          while (1) { // main loop
+ 131   2              /* code */
+ 132   2              switch (state) {
+ 133   3              case 0:
+ 134   3      
+ 135   3      
+ 136   3                  //DelayMs(40);
+ 137   3                  break;
+ 138   3              case 1:
+ 139   3                  /*pos
+ 140   3                  for (i = 0; i < dic_num; i++) {
+ 141   3      
+ 142   3                  }*/
+ 143   3      
+ 144   3                  /*if (can_show) {
+ 145   3                      pos = 0x80;
+ 146   3                      for (i = 0; i < total_dot; i++) {
+ 147   3                          LCDSetUpCmd(pos);
+ 148   3                          LCDUploadData(Dic_arr[i] + '0');
+ 149   3                          pos += 2;
+ 150   3                      }
+ 151   3      
+ 152   3      
+ 153   3                      LCDSetUpCmd(0xC0);
+ 154   3                      LCD_upload_str("total is ");
+ 155   3                      to_num_str(total_dot);
+ 156   3                      LCD_upload_str(num_str_for_fun);
+ 157   3                  }*/
+ 158   3                  //DelayMs(40);
+ 159   3                  break;
+ 160   3      
+ 161   3      
+ 162   3              default:
+ 163   3                  break;
+ 164   3              }
+ 165   2      
+ 166   2              /*if (clean) { // clear scren
+ 167   2                  LCDSetUpCmd(0x01);
+ 168   2                  clean = 0;
+ 169   2              }*/
+ 170   2          }
+ 171   1      
+ 172   1      
+ 173   1      
+ 174   1      
+ 175   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+C51 COMPILER V8.16   MAIN_DIC                                                              01/18/2022 01:37:38 PAGE 4   
+
+   CODE SIZE        =    551    ----
+   CONSTANT SIZE    =     25    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     40    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

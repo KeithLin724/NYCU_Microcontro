@@ -1,0 +1,110 @@
+A51 MACRO ASSEMBLER  QTION3                                                               10/26/2021 19:52:36 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Qtion3.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Qtion3.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1         org 0000H
+0000 0150              2         ajmp main 
+0050                   3         org 0050H
+0050                   4     main:
+0050 7804              5         mov r0 , #00000100b  
+0052 7904              6         mov r1 , #00000100b  
+                       7         
+0054                   8     loop1:  
+0054 E8                9         mov a , r0
+0055 23               10         rl a 
+0056 F8               11         mov r0 , a 
+0057 F590             12         mov p1 , a 
+                      13         
+0059 E9               14         mov a , r1 
+005A 23               15         rl a
+005B F9               16         mov r1 , a 
+005C F580             17         mov p0 , a 
+                      18         
+005E 1192             19         acall delay
+0060 B920F1           20         cjne r1 , #00100000b , loop1
+0063                  21     loop2:
+0063 E8               22         mov a , r0
+0064 23               23         rl a 
+0065 F8               24         mov r0 , a 
+0066 F590             25         mov p1 , a 
+                      26         
+0068 E9               27         mov a , r1 
+0069 03               28         rr a
+006A F9               29         mov r1 , a 
+006B F580             30         mov p0 , a 
+                      31         
+006D 1192             32         acall delay
+006F B880F1           33         cjne r0 , #10000000b , loop2
+0072                  34     loop3:
+0072 E8               35         mov a , r0
+0073 03               36         rr a 
+0074 F8               37         mov r0 , a 
+0075 F590             38         mov p1 , a 
+                      39         
+0077 E9               40         mov a , r1 
+0078 03               41         rr a
+0079 F9               42         mov r1 , a 
+007A F580             43         mov p0 , a 
+                      44         
+007C 1192             45         acall delay
+007E B902F1           46         cjne r1 , #00000010b , loop3
+0081                  47     loop4:
+0081 E8               48         mov a , r0
+0082 03               49         rr a 
+0083 F8               50         mov r0 , a 
+0084 F590             51         mov p1 , a 
+                      52         
+0086 E9               53         mov a , r1 
+0087 23               54         rl a
+0088 F9               55         mov r1 , a 
+0089 F580             56         mov p0 , a 
+                      57         
+008B 1192             58         acall delay
+A51 MACRO ASSEMBLER  QTION3                                                               10/26/2021 19:52:36 PAGE     2
+
+008D B808F1           59         cjne r0 , #00001000b , loop4
+0090 0154             60         ajmp loop1
+                      61     
+0092                  62     delay:
+0092 7DFF             63             mov r5,#0FFH
+0094                  64     delay1:
+0094 7EFF             65             mov r6,#0FFH
+0096                  66     delay2:
+0096 7F0F             67             mov r7,#00FH
+0098                  68     delay3:
+0098 DFFE             69             djnz r7,delay3
+009A DEFA             70             djnz r6,delay2
+009C DDF6             71             djnz r5,delay1
+009E 22               72             ret
+                      73     
+                      74         end 
+A51 MACRO ASSEMBLER  QTION3                                                               10/26/2021 19:52:36 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   0092H   A   
+DELAY1 . . . . . .  C ADDR   0094H   A   
+DELAY2 . . . . . .  C ADDR   0096H   A   
+DELAY3 . . . . . .  C ADDR   0098H   A   
+LOOP1. . . . . . .  C ADDR   0054H   A   
+LOOP2. . . . . . .  C ADDR   0063H   A   
+LOOP3. . . . . . .  C ADDR   0072H   A   
+LOOP4. . . . . . .  C ADDR   0081H   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

@@ -1,0 +1,70 @@
+BL51 BANKED LINKER/LOCATER V6.15                                                        09/30/2021  23:02:36  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.15, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE main3_color.obj TO Lab01 RAMSIZE (256) CODE (0X0000-0XFFFF) XDATA (0X0000-0X03FF)
+
+
+INPUT MODULES INCLUDED:
+  main3_color.obj (MAIN3_COLOR)
+
+
+LINK MAP OF MODULE:  Lab01 (MAIN3_COLOR)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     006FH     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  Lab01 (MAIN3_COLOR)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        MAIN3_COLOR
+  C:0062H         SYMBOL        DELAY
+  C:0064H         SYMBOL        DELAY1
+  C:0066H         SYMBOL        DELAY2
+  C:0068H         SYMBOL        DELAY3
+  C:0055H         SYMBOL        LOOP
+  C:0050H         SYMBOL        MAIN
+  D:0080H         SYMBOL        P0
+  D:0090H         SYMBOL        P1
+  C:0000H         LINE#         2
+  C:0050H         LINE#         5
+  C:0052H         LINE#         6
+  C:0054H         LINE#         7
+  C:0055H         LINE#         9
+  C:0056H         LINE#         10
+  C:0058H         LINE#         12
+  C:0059H         LINE#         13
+  C:005AH         LINE#         14
+  C:005CH         LINE#         16
+  C:005DH         LINE#         17
+  C:005EH         LINE#         21
+  C:0060H         LINE#         22
+  C:0062H         LINE#         25
+  C:0064H         LINE#         27
+  C:0066H         LINE#         29
+  C:0068H         LINE#         31
+  C:006AH         LINE#         32
+  C:006CH         LINE#         33
+  C:006EH         LINE#         34
+  -------         ENDMOD        MAIN3_COLOR
+
+BL51 BANKED LINKER/LOCATER V6.15                                                      09/30/2021  23:02:36  PAGE 2
+
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 0021H BYTE ( 1%) *
+******************************************************************************
+
+Program Size: data=8.0 xdata=0 code=111
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

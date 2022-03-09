@@ -1,0 +1,56 @@
+A51 MACRO ASSEMBLER  MAIN3                                                                09/28/2021 21:46:35 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN main3.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE main3.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1         ORG 0000H
+0000 0150              2         AJMP MAIN 
+0050                   3         ORG 0050H
+0050                   4     MAIN:
+0050 78FF              5         MOV R0,#0FFH; 
+0052 C3                6         CLR C;
+0053                   7     LOOP:
+0053 E8                8         MOV A , R0 ; 
+0054 13                9         RRC A ; 
+0055 F590             10         MOV P1, A;
+0057 B3               11         CPL C;
+0058 F8               12         MOV R0,A;
+0059 115D             13         ACALL DELAY 
+005B 80F6             14         JMP LOOP  
+005D                  15     DELAY:
+005D 7DFF             16         MOV R5,#0FFH;  
+005F                  17     DELAY1:
+005F 7EFF             18         MOV R6,#0FFH; 
+0061                  19     DELAY2:
+0061 7F05             20         MOV R7,#05H;  
+0063                  21     DELAY3:
+0063 DFFE             22         DJNZ R7,DELAY3 
+0065 DEFA             23         DJNZ R6,DELAY2 
+0067 DDF6             24         DJNZ R5,DELAY1 
+0069 22               25         RET  
+                      26         END
+A51 MACRO ASSEMBLER  MAIN3                                                                09/28/2021 21:46:35 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   005DH   A   
+DELAY1 . . . . . .  C ADDR   005FH   A   
+DELAY2 . . . . . .  C ADDR   0061H   A   
+DELAY3 . . . . . .  C ADDR   0063H   A   
+LOOP . . . . . . .  C ADDR   0053H   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

@@ -1,0 +1,138 @@
+A51 MACRO ASSEMBLER  QTION1                                                               10/26/2021 18:38:03 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Qtion1.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Qtion1.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1         org 0000H 
+0000 0150              2         ajmp main  
+0050                   3         org 0050H 
+                       4     
+0050                   5     main:
+0050                   6     init_table :  
+0050 90008B            7         mov dptr , #Big_table  
+0053                   8     init_set:  
+0053 7880              9         mov r0 , #10000000b  
+0055 7900             10         mov r1 , #0  
+0057 7A00             11         mov r2 , #0  
+0059 7B00             12         mov r3 , #0  
+005B                  13     loop:  
+005B EA               14         mov a , r2 ; // choose  
+005C 93               15         movc a , @a + dptr  
+005D F580             16         mov p0 , a  
+                      17     
+005F E8               18         mov a , r0  
+0060 F590             19         mov p1 , a  
+0062 03               20         rr a  
+0063 F8               21         mov r0 , a  
+0064 11A9             22         acall delay  
+                      23     
+0066 0A               24         inc r2  
+0067 B804F1           25         cjne r0 , #00000100b , loop ; display col  
+006A 7880             26         mov r0 , #10000000b  
+006C 7A00             27         mov r2 , #0  
+006E 09               28         inc r1  
+                      29     
+006F B920E9           30         cjne r1 , #020H , loop ;display time  
+0072 7900             31         mov r1 ,#0  
+                      32         
+0074 0B               33         inc r3  
+0075 BB0302           34         cjne r3 , #3 , no_reset 
+0078 7B00             35         mov r3 , #0  
+007A                  36     no_reset: 
+007A 7400             37         mov a , #0  
+007C 6B               38         xrl a , r3  
+007D 601B             39         jz  change_Big  
+                      40         
+007F 7401             41         mov a , #1 
+0081 6B               42         xrl a , r3 
+0082 601B             43         jz  change_Mid  
+                      44         
+0084 7402             45         mov a , #2 
+0086 6B               46         xrl a , r3 
+0087 601B             47         jz  change_Small  
+                      48     
+0089                  49     change_end: 
+0089 015B             50         ajmp loop  
+                      51     
+008B                  52     Big_table: 
+008B 12               53         db  00010010b
+008C 14               54             db      00010100b
+008D 78               55             db      01111000b
+008E 14               56             db      00010100b
+008F 12               57             db      00010010b
+0090                  58     Mid_table: 
+A51 MACRO ASSEMBLER  QTION1                                                               10/26/2021 18:38:03 PAGE     2
+
+0090 3E               59         db  00111110b
+0091 22               60             db      00100010b
+0092 7F               61             db      01111111b
+0093 22               62             db      00100010b
+0094 3E               63             db      00111110b
+                      64     
+0095                  65     Small_table: 
+0095 08               66         db  00001000b
+0096 11               67             db      00010001b
+0097 7F               68             db      01111111b
+0098 10               69             db      00010000b
+0099 08               70             db      00001000b
+                      71     
+009A                  72     change_Big: 
+009A 90008B           73         mov dptr , #Big_table 
+009D 80EA             74         jmp change_end 
+                      75     
+009F                  76     change_Mid: 
+009F 900090           77         mov dptr, #Mid_table 
+00A2 80E5             78         jmp change_end 
+                      79     
+00A4                  80     change_Small: 
+00A4 900095           81         mov dptr,#Small_table 
+00A7 80E0             82         jmp change_end  
+                      83     
+00A9                  84     delay:
+00A9 7DFF             85             mov r5,#0FFH
+00AB                  86     delay1:
+00AB 7E0F             87             mov r6,#00FH
+00AD                  88     delay2:
+00AD 7F01             89             mov r7,#1H
+00AF                  90     delay3:
+00AF DFFE             91             djnz r7,delay3
+00B1 DEFA             92             djnz r6,delay2
+00B3 DDF6             93             djnz r5,delay1
+00B5 22               94             ret
+                      95         end  
+A51 MACRO ASSEMBLER  QTION1                                                               10/26/2021 18:38:03 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+BIG_TABLE. . . . .  C ADDR   008BH   A   
+CHANGE_BIG . . . .  C ADDR   009AH   A   
+CHANGE_END . . . .  C ADDR   0089H   A   
+CHANGE_MID . . . .  C ADDR   009FH   A   
+CHANGE_SMALL . . .  C ADDR   00A4H   A   
+DELAY. . . . . . .  C ADDR   00A9H   A   
+DELAY1 . . . . . .  C ADDR   00ABH   A   
+DELAY2 . . . . . .  C ADDR   00ADH   A   
+DELAY3 . . . . . .  C ADDR   00AFH   A   
+INIT_SET . . . . .  C ADDR   0053H   A   
+INIT_TABLE . . . .  C ADDR   0050H   A   
+LOOP . . . . . . .  C ADDR   005BH   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+MID_TABLE. . . . .  C ADDR   0090H   A   
+NO_RESET . . . . .  C ADDR   007AH   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+SMALL_TABLE. . . .  C ADDR   0095H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

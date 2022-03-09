@@ -1,0 +1,37 @@
+A51 MACRO ASSEMBLER  QION1                                                                10/05/2021 18:37:27 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Qion1.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Qion1.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1         ORG 0000H
+0000 0150              2         AJMP MAIN
+0050                   3         ORG 0050H
+                       4     
+0050                   5     main:
+0050 E580              6         MOV A,P0
+                       7             ;CPL A
+0052 F590              8         MOV P1,A
+                       9     
+0054 0150             10         AJMP MAIN
+                      11         END
+A51 MACRO ASSEMBLER  QION1                                                                10/05/2021 18:37:27 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+MAIN . . . . . . .  C ADDR   0050H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

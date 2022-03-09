@@ -1,0 +1,174 @@
+C51 COMPILER V8.16   MAIN2                                                                 01/05/2022 22:13:42 PAGE 1   
+
+
+C51 COMPILER V8.16, COMPILATION OF MODULE MAIN2
+OBJECT MODULE PLACED IN main2.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE code\main2.c OPTIMIZE(0,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\main2.lst)
+                    - OBJECT(main2.obj)
+
+line level    source
+
+   1          #include <REG_MPC82G516.H>
+   2          #include "package.h"
+   3          #include <STDIO.H>
+   4          #include <STDLIB.H>
+   5          
+   6          #define MAX_MARK_STR 16
+   7          /////////player/////
+   8          ///////////////////
+   9          //#define pos_ply_max 16 // play is in 0 
+  10          
+  11          Byte pos = 0x8F; // 0 is lose // 1 is win // -1 unknow 
+  12          Byte game_state = 0; // 0 is new game // 1 is gameing // 2 is win_lose 
+  13          Byte blood = 1;// only 5 time 
+  14          Byte player_num = 0;
+  15          
+  16          ///////game string//////////
+  17          //const char win_str[] = { '-','-','W' , 'I' , 'N' , '-' , '-' , '\0' };
+  18          //const char Lose_str[] = { '-','-','L' , 'O' , 'S' , 'E' , '-' , '-' , '\0' };
+  19          //const char mark_str[] = { 'm', 'a', 'r', 'k', ':' , '\0' };
+  20          //const char new_game[] = { 'n', 'e', 'w', ' ', 'g', 'a', 'm', 'e'  , '\0' };
+  21          
+  22          //////mark//////
+  23          signed short mark = 0;
+  24          char num_str_for_fun[MAX_MARK_STR];
+  25          
+  26          void to_num_str(signed short num) {
+  27   1          Byte i;
+  28   1          for (i = 0; i < MAX_MARK_STR; i++) {
+  29   2              num_str_for_fun[i] = '\0';
+  30   2          }
+  31   1          sprintf(num_str_for_fun, "%d", num);
+  32   1      
+  33   1      }
+  34          ////////////////
+  35          ////////sys num rand //////
+  36          s_int8 sys_rand_num = 0;
+  37          ///////
+  38          //////input ///////////
+  39          //Byte LCD_row = 0;
+  40          Byte clean = 0;
+  41          
+  42          void int0_inter_input() interrupt 0 using 2 {
+  43   1      
+  44   1          switch (game_state) {
+  45   2          case 0:
+  46   2              game_state++;
+  47   2              clean = 1;
+  48   2              break;
+  49   2      
+  50   2          case 1:
+  51   2              /* code */
+  52   2              player_num++;
+  53   2              if (player_num == 10) {
+  54   3                  player_num = 0;
+C51 COMPILER V8.16   MAIN2                                                                 01/05/2022 22:13:42 PAGE 2   
+
+  55   3              }
+  56   2              //LCDSetUpCmd(0x01);
+  57   2      
+  58   2              break;
+  59   2          case 2:
+  60   2              game_state++;
+  61   2              clean = 1;
+  62   2              break;
+  63   2      
+  64   2          default:
+  65   2              break;
+  66   2          }
+  67   1      
+  68   1          //clean = 1;
+  69   1      }
+  70          
+  71          Byte dl = 0;
+  72          ///////////////////////
+  73          void main() {
+  74   1          // open INT0
+  75   1          IT0 = 1; /// falling edge 
+  76   1          EX0 = 1;
+  77   1          PX0 = 1;
+  78   1          EA = 1;
+  79   1          // 
+  80   1      
+  81   1      
+  82   1          //LCD
+  83   1          LCDInit();
+  84   1      
+  85   1      
+  86   1          while (1) { // run main 
+  87   2              /* code */
+  88   2              LCDSetUpCmd(0x80); // set ddram to 0x80 is 0 0xC0
+  89   2      
+  90   2      
+  91   2              switch (game_state) {
+  92   3              case 0: // new game 
+  93   3                  LCD_upload_str("new game");
+  94   3                  break;
+  95   3              case 1: // gameing 
+  96   3                  //LCD_upload_str(win_str);
+  97   3                  while (blood) {
+  98   4                      sys_rand_num = rand() % 58 - '0'; // 0 to 9
+  99   4                      /*for (; pos > 0; pos--) {
+ 100   4                          LCDUploadData()
+ 101   4                      }*/
+ 102   4      
+ 103   4                      while (pos > 0x8F) {
+ 104   5                          LCDSetUpCmd(0x80);
+ 105   5                          LCDUploadData((Byte)(player_num + '0'));
+ 106   5                          LCDSetUpCmd(pos);
+ 107   5                          LCDUploadData(sys_rand_num);
+ 108   5                          pos--;
+ 109   5                          for (dl = 0; dl < 100; dl++)
+ 110   5                              DelayMs(50);
+ 111   5                      }
+ 112   4                      pos = 0x8F;
+ 113   4      
+ 114   4                      /*if () {
+ 115   4                          mark++;
+ 116   4                      }*/
+C51 COMPILER V8.16   MAIN2                                                                 01/05/2022 22:13:42 PAGE 3   
+
+ 117   4                      (player_num + '0') == sys_rand_num ? mark++ : blood--;
+ 118   4      
+ 119   4      
+ 120   4                  }
+ 121   3      
+ 122   3      
+ 123   3                  break;
+ 124   3              case 2: // end game 
+ 125   3                  LCD_upload_str("Try agin");
+ 126   3                  LCDSetUpCmd(0xC0);
+ 127   3                  to_num_str(mark);
+ 128   3                  //
+ 129   3                  LCD_upload_str("mark :");
+ 130   3                  LCD_upload_str(num_str_for_fun);
+ 131   3                  break;
+ 132   3      
+ 133   3              default:
+ 134   3                  break;
+ 135   3              }
+ 136   2      
+ 137   2              if (clean) {
+ 138   3                  LCDSetUpCmd(0x01);
+ 139   3                  clean = 0;
+ 140   3              }
+ 141   2      
+ 142   2      
+ 143   2          }
+ 144   1      
+ 145   1      
+ 146   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    558    ----
+   CONSTANT SIZE    =     28    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     37    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

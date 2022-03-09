@@ -1,0 +1,77 @@
+A51 MACRO ASSEMBLER  QION2                                                                10/12/2021 19:02:04 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.01
+OBJECT MODULE PLACED IN Qion2.OBJ
+ASSEMBLER INVOKED BY: C:\Keil\C51\BIN\A51.EXE Qion2.asm SET(SMALL) DEBUG EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     org 0000H  
+0000 0150              2     ajmp main  
+0050                   3     org 0050H  
+0050                   4     main: 
+0050 900064            5         mov dptr , #table 
+0053                   6     loop: 
+0053 7800              7         mov r0 , #0 
+0055                   8     loop1: 
+0055 E8                9         mov a , r0  
+0056 93               10         movc a , @a+dptr 
+0057 F580             11         mov p0 , a  
+0059 08               12         inc r0 
+005A E590             13         mov a , p1  
+005C F4               14         cpl a ; flip  
+                      15         ;add a , #00FH // more time
+005D 116D             16         acall DELAY  
+005F B809F3           17         cjne r0 , #9 , loop1  
+0062 0153             18         ajmp loop  
+                      19     
+0064                  20     table: 
+0064 F9               21         db 0F9H ;1 
+0065 C0               22         db 0C0H ;0 
+0066 90               23         db 090H ;9 
+0067 92               24         db 092H ;5 
+0068 F9               25         db 0F9H ;1 
+0069 F9               26         db 0F9H ;1 
+006A A4               27         db 0A4H ;2 
+006B F8               28         db 0F8H ;7 
+006C 82               29         db 082H ;6 
+                      30     
+006D                  31     DELAY:
+006D FD               32         MOV R5,a;  // use for contro delay time 
+006E 0D               33         inc r5 
+006F                  34     DELAY1:
+006F 7EFF             35         MOV R6,#0FFH; 
+0071                  36     DELAY2:
+0071 7F15             37         MOV R7,#15H;  
+0073                  38     DELAY3:
+0073 DFFE             39         DJNZ R7,DELAY3 
+0075 DEFA             40         DJNZ R6,DELAY2 
+0077 DDF6             41         DJNZ R5,DELAY1 
+0079 22               42         RET  
+                      43         END
+                             
+A51 MACRO ASSEMBLER  QION2                                                                10/12/2021 19:02:04 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY. . . . . . .  C ADDR   006DH   A   
+DELAY1 . . . . . .  C ADDR   006FH   A   
+DELAY2 . . . . . .  C ADDR   0071H   A   
+DELAY3 . . . . . .  C ADDR   0073H   A   
+LOOP . . . . . . .  C ADDR   0053H   A   
+LOOP1. . . . . . .  C ADDR   0055H   A   
+MAIN . . . . . . .  C ADDR   0050H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+TABLE. . . . . . .  C ADDR   0064H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
