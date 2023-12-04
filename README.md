@@ -1,1 +1,4 @@
-# This is library of the NYCU MCU Lab code 
+# NYCU MCU Lab code 
+## Written By KYiN
+
+---
